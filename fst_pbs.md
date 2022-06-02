@@ -283,6 +283,7 @@ hist(r$PBS_CEU,col="mistyrose",xlim=c(0,mmax),br=20)
 hist(r$PBS_JPT,col="hotpink",xlim=c(0,mmax),br=20)
 
 ```
+If you had problems running the above commands you can find the result [here](results/fst_pbs.pdf)
 
 note the maximum observed values for both the pairwise fst and the PBS
 
