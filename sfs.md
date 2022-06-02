@@ -1,7 +1,7 @@
 This exercise revolves around obtaining site frequency spectra from two different populations and see if we can find any sign of selection.
 
 The input data are simulated bcffiles and should reflect chr20 in a european population.
-
+ISIN fill in information regarding seqdepth and error rate
 # Sitefrequency spectrum and VCF files
 
 ###
@@ -65,17 +65,22 @@ We need to plot these, we will use R
 ```
 p1 <- scan(POP1.sfs)
 p2 <- scan(POP2.sfs)
-barplot(rbind(p1,p2))
-barplot(rbind(p1,p2)[,-1])
+barplot(p1)
+barplot(p2)
+```
+How many segregating(variable) sites do we have in each of the populations?
+```
+sum(p1[-1])
+sum(p2[-1])
 ```
 
 
 ### Allele frequency posterior probabilities and associated statistics (`-doThetas`)
-
-
+We are interested in performing a sliding window analyses using various estimates of the population scaled mutation rate. We can precompute the persite theta estimates by using the following commands
 
 ```
-realSFS saf2theta POP1.saf.idx -sfs POP1.sfs -outname POP1
+${REALSFS} saf2theta POP1.saf.idx -sfs POP1.sfs -outname POP1
+${REALSFS} saf2theta POP2.saf.idx -sfs POP2.sfs -outname POP2
 ```
 
 
