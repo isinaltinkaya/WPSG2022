@@ -1,5 +1,4 @@
-# draft_teaching
-
+# Selection
 
 ## Site frequency spectrum
 
@@ -7,30 +6,27 @@
 
 ### Allele frequency posterior probabilities and associated statistics (`-doThetas`)
 
-| Column index | 1           | 2        | 3                                                           | 4                                                           | 5              | 6                                                         | 7                                          |
-|--------------|-------------|----------|-------------------------------------------------------------|-------------------------------------------------------------|----------------|-----------------------------------------------------------|--------------------------------------------|
-| Column ID    | #Chromo     | Pos      | Watterson                                                   | Pairwise                                                    | thetaSingleton | thetaH                                                    | thetaL                                     |
-| Example data | chr20       | 1        | -13.837903                                                  | -15.382814                                                  | -12.393384     | -19.039749                                                | -16.050478                                 |
-|              | Contig name | Position | Watterson's theta                                           | ThetaD Nucleotide diversity                                 |                | FayH                                                      | L                                          |
-|              |             |          | $$\sum _{i=1}^{n-1} \eta _i/a^{-1}, a= \sum _{i=1}^{n-1}i $$ | $${{n} \choose {2}}^{-1} \sum _{i=1}^{n-1}i(n-i) \eta _i $$ | $$\eta _ 1$$ | $${{n} \choose {2}}^{-1} \sum _{i=1}^{n-1}i^ 2 \eta _i$$ | $${n-1}^{-1} \sum _{i=1}^{n-1}i \eta _i $$ |
-
 
 We can now use the SFS as prior information using `-pest`
 
 Compute the allele frequency posterior probabilities and associated statistics (`-doThetas`)
 
 ```
-realSFS saf2theta sim_rep0_d10.saf.idx -sfs simulations/sfs/sim_rep0_d10.sfs -outname o
+realSFS saf2theta sim_rep0_d10.saf.idx -sfs sim_rep0_d10.sfs -outname OUTFILE
 ```
 
-- out.thetas.idx
+
+
+- OUTFILE.thetas.idx
+
+We can view the theta statistics using `./thetaStat print thetas.idx`. This file contains log scaled per site estimates of the thetas.
 
 
 ```
 thetaStat print out.thetas.idx
 ```
 ```
-$ /maps/projects/lundbeck/scratch/pfs488/AMOVA/simulations/angsd/misc/thetaStat print testout.thetas.idx 2>/dev/null |head                        
+$thetaStat print testout.thetas.idx 2>/dev/null |head                        
 #Chromo Pos     Watterson       Pairwise        thetaSingleton  thetaH  thetaL                   
 chr20   1       -13.837903      -15.382814      -12.393384      -19.039749      -16.050478
 chr20   2       -14.297906      -15.843701      -12.852455      -19.502541      -16.511412
@@ -44,9 +40,14 @@ chr20   9       -8.865955       -10.400315      -7.432686       -14.034883      
 ```
 
 
-```
-./misc/thetaStat do_stat out.thetas.idx
-```
+| Column index | 1           | 2        | 3                                                           | 4                                                           | 5              | 6                                                         | 7                                          |
+|--------------|-------------|----------|-------------------------------------------------------------|-------------------------------------------------------------|----------------|-----------------------------------------------------------|--------------------------------------------|
+| Column ID    | #Chromo     | Pos      | Watterson                                                   | Pairwise                                                    | thetaSingleton | thetaH                                                    | thetaL                                     |
+| Example data | chr20       | 1        | -13.837903 | -15.382814 | -12.393384     | -19.039749 | -16.050478 |
+|              | Contig name | Position | Watterson's theta                                           | ThetaD Nucleotide diversity                                 |                | FayH  | L |
+|              |             |          | $$\sum _{i=1}^{n-1} \eta _i/a^{-1}, a= \sum _{i=1}^{n-1}i $$ | $${{n} \choose {2}}^{-1} \sum _{i=1}^{n-1}i(n-i) \eta _i $$ | $$\eta _ 1$$ | $${{n} \choose {2}}^{-1} \sum _{i=1}^{n-1}i^ 2 \eta _i$$ | $${n-1}^{-1} \sum _{i=1}^{n-1}i \eta _i $$ |
+
+
 
 ### Sliding window
 
@@ -56,8 +57,7 @@ We can do a sliding window analysis using a window size of 50kb and a step size 
 thetaStat do_stat out.thetas.idx -win 50000 -step 10000  -outnames theta.thetasWindow.gz
 ```
 
-`./thetaStat print thetas.idx`  log scaled per site estimates of the thetas
-`pestPG` sum of the per site estimates for a region
+`pestPG` contains the sum of the per site estimates for a region
 
 ```
 #(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)   Chr     WinCenter       tW      tP      tF      tH      tL    Tajima   fuf     fud     fayh    zeng    nSites
@@ -65,3 +65,7 @@ thetaStat do_stat out.thetas.idx -win 50000 -step 10000  -outnames theta.thetasW
 ```
 
 
+
+```
+./misc/thetaStat do_stat out.thetas.idx
+```
