@@ -121,7 +121,7 @@ We can view the theta statistics using `${THETASTAT} print thetas.idx`. This fil
 
 
 ```
-thetaStat print POP1.thetas.idx
+${THETASTAT} print POP1.thetas.idx
 ```
 ```
 $thetaStat print testout.thetas.idx 2>/dev/null |head                        
@@ -163,15 +163,7 @@ ${THETASTAT} do_stat POP2.thetas.idx -win 100000 -step 10000  -outnames POP2
 (0,63025519)(1,63025520)(0,63025520)    chr20   31512760        29084.489811    29094.351398    29120.408460    34251.072423    31672.711913  0.001278 -0.001687       -0.003197       -0.142269       0.072371        63025519
 ```
 
-
-
-```
-./misc/thetaStat do_stat out.thetas.idx
-```
-
-
-
-
+Let us try load the data into R and plot it
 ```
 p1<-read.table("POP1.pestPG",header=F)
 colnames(p1)<-c("Index","Chr","WinCenter","tW","tP","tF","tH","tL","Tajima","fuf","fud","fayh","zeng","nSites")
@@ -179,10 +171,11 @@ p2<-read.table("POP2.pestPG",header=F)
 colnames(p2)<-c("Index","Chr","WinCenter","tW","tP","tF","tH","tL","Tajima","fuf","fud","fayh","zeng","nSites")
 
 plot(p1$WinCenter,p1$Tajima)
-plot(p2$winCenter,p2$Tajima)
+plot(p2$WinCenter,p2$Tajima)
 
 #or on same plot
-plot(p2$WinCenter,p2$Tajima,col='blue',lwd=2,type='l',ylim=range(c(p1$Tajima,p2$Tajima)))
-lines(p1$WinCenter,p1$Tajima,col='red',lwd=1)
+plot(p2$WinCenter/1e6,p2$Tajima,col='blue',lwd=2,type='l',ylim=range(c(p1$Tajima,p2$Tajima)),xlab="Position in MB",ylab="Tajimas D")
+lines(p1$WinCenter/1e6,p1$Tajima,col='red',lwd=1)
 legend("bottomright",c("POP1","POP2"),fill=c("red","blue"))
 ```
+Plots can also be found [here](results/thetas.tajima.pdf)
