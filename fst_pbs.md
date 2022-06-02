@@ -34,23 +34,23 @@ First set some paths
 # set some paths
 
     # NB this must be done every time you open a new terminal
-    ThePath=/gdc_home2/groups/BAG18/3_wednesday
+
     
     # Set path to ANGSD program
-    ANGSD=$ThePath/prog/angsd/angsd
+    ANGSD=angsd/angsd
     
     #realSFS
-    REAL=$ThePath/prog/angsd/misc/realSFS
+    REALSFS=angsd/misc/realSFS
     
     #ancestral fasta file (chimp)
-    ANC=$ThePath/sfs/data/hg19ancNoChr.fa.gz
+    ANC=hg19ancNoChr.fa.gz
     
     #reference genome for human 
-    REF=$ThePath/sfs/data/hg19.fa.gz
+    REF=hg19.fa.gz
     
     # a bam filelist for a several bam files
-    BAMFOLDER=$ThePath/sfs/data/smallerbams
-    BAMFOLDERchr5=$ThePath/sfs/data/chr5_33M_v2
+    BAMFOLDER=dt/smallerbams
+    BAMFOLDERchr5=dt/chr5_33M_v2
     
     #copy R plot function to folder
     cp $ThePath/sfs/plot2dSFS.R .
