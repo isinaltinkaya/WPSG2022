@@ -79,11 +79,14 @@ cat POP2.sfs
 We need to plot these, we will use R
 
 ```
-p1 <- scan(POP1.sfs)
-p2 <- scan(POP2.sfs)
+p1 <- scan("POP1.sfs")
+p2 <- scan("POP2.sfs")
 barplot(p1)
 barplot(p2)
+barplot(p1[-1])
+barplot(p2[-1])
 ```
+See plot [here](results/p1.p2.pdf)
 
 1. How many segregating(variable) sites do we have in each of the populations?
 
