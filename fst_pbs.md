@@ -59,11 +59,11 @@ First set some paths
 Let us first validate that we setup our variables correctly
 
 ```
-ls ${ANGSD} ${REALSFS} ${ANC} ${REF} ${BAMFOLDER} ${BAMFOLDERchr5} plot2dsfs.R
+ls ${ANGSD} ${REALSFS} ${ANC} ${REF} ${BAMFOLDER} ${BAMFOLDERchr5} plot2dSFS.R
 ```
 
 
-make some file lists of bam files
+Make some file lists of bam files
 
     #a African population
     find $BAMFOLDER | grep bam$ | grep YRI > YRI.filelist
@@ -71,6 +71,12 @@ make some file lists of bam files
     find $BAMFOLDER | grep bam$ | grep JPT > JPT.filelist
     #a European population
     find $BAMFOLDER | grep bam$ | grep CEU > CEU.filelist
+
+Let us see how many samples we have in each population
+
+```
+wc -l *.filelist
+```
 
 # Reconstructing the site frequency spectrum
 
@@ -95,18 +101,18 @@ The run time is a couple of minutes
 
 If it talks to long then you can copy the results using this command:
 
-    cp $ThePath/run/yri.saf* .
-    cp $ThePath/run/ceu.saf* .
-    cp $ThePath/run/jpt.saf* .
+    cp dt/yri.saf* .
+    cp dt/ceu.saf* .
+    cp dt/jpt.saf* .
 
 Estimate the site frequency spectrum for each of the 3 populations
 without having to call genotypes or variable sites directly from the
 site frequency likelihoods
 
     #calculate the 1 dimensional SFS
-    $REAL yri.saf.idx > yri.sfs
-    $REAL jpt.saf.idx > jpt.sfs
-    $REAL ceu.saf.idx > ceu.sfs
+    $REALSFS yri.saf.idx > yri.sfs
+    $REALSFS jpt.saf.idx > jpt.sfs
+    $REALSFS ceu.saf.idx > ceu.sfs
 
 In order to plot the results open R and make a barplot
 
