@@ -7,12 +7,11 @@
 ### Allele frequency posterior probabilities and associated statistics (`-doThetas`)
 
 
-We can now use the SFS as prior information using `-pest`
+We can use the SFS as prior information using `-pest`
 
-Compute the allele frequency posterior probabilities and associated statistics (`-doThetas`)
 
 ```
-realSFS saf2theta sim_rep0_d10.saf.idx -sfs sim_rep0_d10.sfs -outname OUTFILE
+realSFS saf2theta FILE.saf.idx -sfs FILE.sfs -outname OUTFILE
 ```
 
 
