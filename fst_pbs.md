@@ -350,7 +350,7 @@ browser](https://genome.ucsc.edu/index.html). Choose Genome browser.
 Choose human GRCh37/hg19 and find the region. Read about this gene on
 wikipedia and see if this fits PBS results.
 
-### Bonus
+### What happens if we try to call genotypes?
 
 We can compare with what happens if we try to call genotypes by calling
 SNPs and genotypes like GATK. If you are running out of time then skip
@@ -420,6 +420,6 @@ resDown <- t(apply(res,1,downsampleSFS,chr=10))
 barplot(resDown,beside=T,legend=c("YRI","JPT","CEU"),names=1:9)
 
 ```
-
+If you had problems running the above commands the result can be found [here](results/yri.jpt.ceu.gc.1dsfs.pdf)
   - How does this compare to the likelhood based estimates
-    ([pdf](../html/plots/realSFS.pdf))
+    ([pdf](results/yri.jpt.ceu.1dsfs.pdf))
