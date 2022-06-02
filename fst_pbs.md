@@ -31,7 +31,7 @@ Due to computation We will use a very reduced data set:
 
 First set some paths
 
-# set some paths
+# Set some environment variables and paths
 
     # NB this must be done every time you open a new terminal
 
@@ -54,6 +54,14 @@ First set some paths
     
     #copy R plot function to folder
     cp dt/plot2dSFS.R .
+
+
+Let us first validate that we setup our variables correctly
+
+```
+ls ${ANGSD} ${REALSFS} ${ANC} ${REF} ${BAMFOLDER} ${BAMFOLDERchr5} plot2dsfs.R
+```
+
 
 make some file lists of bam files
 
