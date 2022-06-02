@@ -1,10 +1,18 @@
-# Selection
+# Sitefrequency spectrum and VCF files
+
+###
+First setup some paths
+
+
+```
+DATA="BCF"
+```
 
 
 ### Site allele frequencies
 
 ```
-angsd -vcf-gl POP1.bcf -doSaf 1 -anc references/chr20.fa -isSim 1 -out POP1
+angsd -vcf-gl ${BCF}/POP1.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP1
 ```
 
 
