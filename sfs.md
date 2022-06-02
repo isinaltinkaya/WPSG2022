@@ -8,7 +8,7 @@ DATA="BCF"
 ANGSD="angsd"
 ```
 
-Validate that we have setup our varibles correctly
+Validate that we have setup our variables correctly
 ```
 ls ${DATA}
 ```
@@ -23,6 +23,14 @@ ${ANGSD} -vcf-gl ${DATA}/POP2.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP2
 ${ANGSD} -vcf-gl ${DATA}/POP1.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP1 -r chr20:20000000-50000000
 ${ANGSD} -vcf-gl ${DATA}/POP2.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP2 -r chr20:20000000-50000000
 ```
+
+Which files was generated?
+
+|Filetype     | Explanation                                           |
+| --- | ------------------------------------------ |
+| saf.gz | containing the sample allele frequencies for all sites   |
+| saf.pos.gz | containing the position         |
+| saf.idx | index file containing the binary offset |
 
 
 
