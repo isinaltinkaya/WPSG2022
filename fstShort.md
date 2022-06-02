@@ -1,6 +1,6 @@
 
 The data is from the 1000 genomes project which included the populations:       
-                                                                                
+
 | ASW     |  HapMap African ancestry individuals from SW US |                      
 | CEU     | European individuals |                                                     
 | CHB     |  Han Chinese in Beijing |                                         
