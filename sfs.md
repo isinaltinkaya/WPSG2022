@@ -1,19 +1,29 @@
 # Sitefrequency spectrum and VCF files
 
 ###
-First setup some paths
-
+First setup some paths and environment variables
 
 ```
 DATA="BCF"
+ANGSD="angsd"
 ```
 
+Validate that we have setup our varibles correctly
+```
+ls ${DATA}
+```
 
 ### Site allele frequencies
 
 ```
-angsd -vcf-gl ${BCF}/POP1.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP1
+${ANGSD} -vcf-gl ${DATA}/POP1.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP1
+${ANGSD} -vcf-gl ${DATA}/POP2.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP2
+##if the above runs takes forever, (it took 5minutes on my desktop),
+##we can limit the analyses to 30megabases in the central part of chromosome20
+${ANGSD} -vcf-gl ${DATA}/POP1.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP1 -r chr20:20000000-50000000
+${ANGSD} -vcf-gl ${DATA}/POP2.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP2 -r chr20:20000000-50000000
 ```
+
 
 
 ### Site frequency spectrum
