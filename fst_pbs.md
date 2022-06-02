@@ -217,7 +217,7 @@ x11()
 plot2(jc,ylab="JPT",xlab="CEU")
 ```
 
-Due to the very limited amount of data the plots are very noizy. However
+Due to the very limited amount of data the plots are very noisy. However
 they are still informative.The colors indicate the density. High density
 means many sites will look like this and low density (green) means that
 few sites looks like this.
