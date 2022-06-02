@@ -1,17 +1,28 @@
 # Selection
 
-## Site frequency spectrum
+
+### Site allele frequencies
+
+```
+angsd -vcf-gl POP1.bcf -doSaf 1 -anc references/chr20.fa -isSim 1 -out POP1
+```
+
+
+### Site frequency spectrum
+
+ 
+```
+realSFS POP1.saf.idx > POP1.sfs
+```
 
 
 
 ### Allele frequency posterior probabilities and associated statistics (`-doThetas`)
 
 
-We can use the SFS as prior information using `-pest`
-
 
 ```
-realSFS saf2theta FILE.saf.idx -sfs FILE.sfs -outname OUTFILE
+realSFS saf2theta POP1.saf.idx -sfs POP1.sfs -outname POP1
 ```
 
 
@@ -22,7 +33,7 @@ We can view the theta statistics using `./thetaStat print thetas.idx`. This file
 
 
 ```
-thetaStat print out.thetas.idx
+thetaStat print POP1.thetas.idx
 ```
 ```
 $thetaStat print testout.thetas.idx 2>/dev/null |head                        
@@ -67,4 +78,14 @@ thetaStat do_stat out.thetas.idx -win 50000 -step 10000  -outnames theta.thetasW
 
 ```
 ./misc/thetaStat do_stat out.thetas.idx
+```
+
+
+
+
+```
+d<-read.table("POP1.pestPG",header=F)
+colnames(d)<-c("Index","Chr","WinCenter","tW","tP","tF","tH","tL","Tajima","fuf","fud","fayh","zeng","nSites")
+plot(t$Tajima)
+plot(t$tW)
 ```
