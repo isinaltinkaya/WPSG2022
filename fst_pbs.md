@@ -336,6 +336,8 @@ Lets view how it looks in this region
     points(r$midPos,r$PBS_CEU,col=3,type="b",pch=18)
     legend("topleft",fill=1:3,c("YRI","JPT","CEU"))
 
+If you problems running the above commands the results can be found [here](results/fst_pbs_chr5.pdf)
+
   - Compare the values you observed on this part of the genome with the
     random pars of the genome you looked at [earlier](results/fst_pbs.pdf)). Is this region extreme?
 
