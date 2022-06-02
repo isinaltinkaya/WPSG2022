@@ -70,7 +70,7 @@ ${REALSFS} POP1.saf.idx > POP1.sfs
 ${REALSFS} POP2.saf.idx > POP2.sfs
 ```
 
-Have a look at the .sfs files :
+Have a look at the .sfs files. If you had problems generating them, they can also be found [here](results/)
 
 ```
 cat POP1.sfs
@@ -84,11 +84,18 @@ p2 <- scan(POP2.sfs)
 barplot(p1)
 barplot(p2)
 ```
-How many segregating(variable) sites do we have in each of the populations?
+
+1. How many segregating(variable) sites do we have in each of the populations?
+
+2. What is the probability of variability ?
+
 ```
 sum(p1[-1])
 sum(p2[-1])
+sum(p1[-1])/sum(p1)
+sum(p2[-1])/sum(p2)
 ```
+Why are we discarding the first bin? Should we discard other bins?
 
 
 ### Allele frequency posterior probabilities and associated statistics
