@@ -1,7 +1,7 @@
 The data is from the 1000 genomes project which included the
 populations:
 
-|     |                                            |
+| Population     | Explanation                     |
 | --- | ------------------------------------------ |
 | CEU | Europeans (mostly of British ancestry)     |
 | JPT | East Asian - Japanese individuals          |
