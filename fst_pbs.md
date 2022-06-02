@@ -337,8 +337,7 @@ Lets view how it looks in this region
     legend("topleft",fill=1:3,c("YRI","JPT","CEU"))
 
   - Compare the values you observed on this part of the genome with the
-    random pars of the genome you looked at earlier
-    ([pdf](../../oulu2016/web/PBS.pdf)). Is this region extreme?
+    random pars of the genome you looked at [earlier](results/fst_pbs.pdf)). Is this region extreme?
 
   - Why is there two peak for the Fst and only one for the PBS?
 
