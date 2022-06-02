@@ -53,7 +53,7 @@ First set some paths
     BAMFOLDERchr5=dt/chr5_33M_v2
     
     #copy R plot function to folder
-    cp $ThePath/sfs/plot2dSFS.R .
+    cp dt/plot2dSFS.R .
 
 make some file lists of bam files
 
