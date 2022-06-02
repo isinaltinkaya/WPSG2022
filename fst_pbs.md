@@ -309,13 +309,13 @@ $ANGSD -b  JPTchr5.filelist  -anc $ANC -out jptChr5 $FILTERS $OPT -ref $REF
 $ANGSD -b  CEUchr5.filelist  -anc $ANC -out ceuChr5 $FILTERS $OPT -ref $REF
 
 #estimate the 1D SFS
-$REAL yriChr5.saf.idx ceuChr5.saf.idx >yri.ceuChr5.ml
-$REAL yriChr5.saf.idx jptChr5.saf.idx >yri.jptChr5.ml
-$REAL jptChr5.saf.idx ceuChr5.saf.idx >jpt.ceuChr5.ml
+$REALSFS yriChr5.saf.idx ceuChr5.saf.idx >yri.ceuChr5.ml
+$REALSFS yriChr5.saf.idx jptChr5.saf.idx >yri.jptChr5.ml
+$REALSFS jptChr5.saf.idx ceuChr5.saf.idx >jpt.ceuChr5.ml
 
 #get FST and PBS in sliding window
-$REAL fst index yriChr5.saf.idx jptChr5.saf.idx ceuChr5.saf.idx -fstout yri.jpt.ceuChr5 -sfs yri.jptChr5.ml -sfs yri.ceuChr5.ml -sfs jpt.ceuChr5.ml
-$REAL fst stats2 yri.jpt.ceuChr5.fst.idx -win 50000 -step 10000 >slidingwindowChr5
+$REALSFS fst index yriChr5.saf.idx jptChr5.saf.idx ceuChr5.saf.idx -fstout yri.jpt.ceuChr5 -sfs yri.jptChr5.ml -sfs yri.ceuChr5.ml -sfs jpt.ceuChr5.ml
+$REALSFS fst stats2 yri.jpt.ceuChr5.fst.idx -win 50000 -step 10000 >slidingwindowChr5
 ```
 
 Lets view how it looks in this region
