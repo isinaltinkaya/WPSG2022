@@ -142,8 +142,8 @@ chr20   9       -8.865955       -10.400315      -7.432686       -14.034883      
 |--------------|-------------|----------|-------------------------------------------------------------|-------------------------------------------------------------|----------------|-----------------------------------------------------------|--------------------------------------------|
 | Column ID    | #Chromo     | Pos      | Watterson                                                   | Pairwise                                                    | thetaSingleton | thetaH                                                    | thetaL                                     |
 | Example data | chr20       | 1        | -13.837903 | -15.382814 | -12.393384     | -19.039749 | -16.050478 |
-|              | Contig name | Position | Watterson's theta                                           | ThetaD Nucleotide diversity                                 |                | FayH  | L |
-|              |             |          | $$\sum _{i=1}^{n-1} \eta _i/a^{-1}, a= \sum _{i=1}^{n-1}i $$ | $${{n} \choose {2}}^{-1} \sum _{i=1}^{n-1}i(n-i) \eta _i $$ | $$\eta _ 1$$ | $${{n} \choose {2}}^{-1} \sum _{i=1}^{n-1}i^ 2 \eta _i$$ | $${n-1}^{-1} \sum _{i=1}^{n-1}i \eta _i $$ |
+| Explanation  | Contig name | Position | Watterson's theta                                           | ThetaD Nucleotide diversity                                 |                | FayH  | L |
+| Formula (if relevant)             |             |          | $$\sum _{i=1}^{n-1} \eta _i/a^{-1}, a= \sum _{i=1}^{n-1}i $$ | $${{n} \choose {2}}^{-1} \sum _{i=1}^{n-1}i(n-i) \eta _i $$ | $$\eta _ 1$$ | $${{n} \choose {2}}^{-1} \sum _{i=1}^{n-1}i^ 2 \eta _i$$ | $${n-1}^{-1} \sum _{i=1}^{n-1}i \eta _i $$ |
 
 
 
