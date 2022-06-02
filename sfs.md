@@ -12,18 +12,27 @@ First setup some paths and environment variables
 ```
 DATA="WORKSHOP_DATA/data/bcf"
 ANGSD="angsd/angsd"
-REALSFS="angsd/misc/realsfs"
-THETASTAT="angsd/misc/thetastat"
+REALSFS="angsd/misc/realSFS"
+THETASTAT="angsd/misc/thetaStat"
 ```
 
 Validate that we have setup our variables correctly
 ```
-ls ${DATA}
+ls ${DATA} ${ANGSD} ${REALSFS} ${THETASTAT}
 ```
-.
+
 ```
+angsd/angsd  angsd/misc/realSFS  angsd/misc/thetaStat
+
+WORKSHOP_DATA/data/bcf:
 chr20.fa.gz  chr20.fa.gz.fai  chr20.fa.gz.gzi  POP1.bcf  POP1.bcf.csi  POP2.bcf  POP2.bcf.csi
 ```
+
+###Understanding VCF/BCF
+
+1. How many sites do we have in the BCFS
+2. How many individuals do we have in the BCFS
+
 
 ### Site allele frequencies
 
@@ -33,9 +42,9 @@ ${ANGSD} -vcf-gl ${DATA}/POP2.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP2
 
 
 ##if the above runs takes forever, (it took 5minutes on my desktop),
-##we can limit the analyses to 30megabases in the central part of chromosome20
-${ANGSD} -vcf-gl ${DATA}/POP1.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP1 -r chr20:20000000-50000000
-${ANGSD} -vcf-gl ${DATA}/POP2.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP2 -r chr20:20000000-50000000
+##we can limit the analyses to 20megabases in the central part of chromosome20
+${ANGSD} -vcf-gl ${DATA}/POP1.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP1 -r chr20:20000000-40000000
+${ANGSD} -vcf-gl ${DATA}/POP2.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP2 -r chr20:20000000-40000000
 ```
 
 Which files was generated?
@@ -52,7 +61,7 @@ Which files was generated?
 ### Site frequency spectrum
 The data are the sample allele frequency loglikelihoods these can be viewed with:
 ```
-realSFS print FILE.saf.idx|head
+${REALSFS} print FILE.saf.idx|head
 ```
 The first two columns are the chromosome and position followed by the saf for each bin. We can obtain an estimate of the global site frequency spectrum for each popoulation using the following commands
  
