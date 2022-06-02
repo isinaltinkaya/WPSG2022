@@ -1,22 +1,28 @@
 This exercise revolves around obtaining site frequency spectra from two different populations and see if we can find any sign of selection.
 
 The input data are simulated bcffiles and should reflect chr20 in a european population.
+
 ISIN fill in information regarding seqdepth and error rate
+
 # Sitefrequency spectrum and VCF files
 
 ###
 First setup some paths and environment variables
 
 ```
-DATA="BCF"
-ANGSD="angsd"
-REALSFS="realsfs"
-THETASTAT="thetastat"
+DATA="WORKSHOP_DATA/data/bcf"
+ANGSD="angsd/angsd"
+REALSFS="angsd/misc/realsfs"
+THETASTAT="angsd/misc/thetastat"
 ```
 
 Validate that we have setup our variables correctly
 ```
 ls ${DATA}
+```
+.
+```
+chr20.fa.gz  chr20.fa.gz.fai  chr20.fa.gz.gzi  POP1.bcf  POP1.bcf.csi  POP2.bcf  POP2.bcf.csi
 ```
 
 ### Site allele frequencies
@@ -76,7 +82,7 @@ sum(p2[-1])
 ```
 
 
-### Allele frequency posterior probabilities and associated statistics (`-doThetas`)
+### Allele frequency posterior probabilities and associated statistics
 We are interested in performing a sliding window analyses using various estimates of the population scaled mutation rate. We can precompute the persite theta estimates by using the following commands
 
 ```
@@ -89,7 +95,7 @@ Which files was generated?
 |Filetype     | Explanation                                           |
 | --- | ------------------------------------------ |
 | .thetas.gz | containing the thetas persite   |
-| .thetas.idx | | saf.idx | index file containing the binary offset |
+| .thetas.idx | index file containing the binary offset |
 
 
 We can view the theta statistics using `${THETASTAT} print thetas.idx`. This file contains log scaled per site estimates of the thetas.
