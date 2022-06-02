@@ -11,6 +11,7 @@ First setup some paths and environment variables
 DATA="BCF"
 ANGSD="angsd"
 REALSFS="realsfs"
+THETASTAT="thetastat"
 ```
 
 Validate that we have setup our variables correctly
@@ -83,11 +84,15 @@ ${REALSFS} saf2theta POP1.saf.idx -sfs POP1.sfs -outname POP1
 ${REALSFS} saf2theta POP2.saf.idx -sfs POP2.sfs -outname POP2
 ```
 
+Which files was generated?
+
+|Filetype     | Explanation                                           |
+| --- | ------------------------------------------ |
+| .thetas.gz | containing the thetas persite   |
+| .thetas.idx | | saf.idx | index file containing the binary offset |
 
 
-- OUTFILE.thetas.idx
-
-We can view the theta statistics using `./thetaStat print thetas.idx`. This file contains log scaled per site estimates of the thetas.
+We can view the theta statistics using `${THETASTAT} print thetas.idx`. This file contains log scaled per site estimates of the thetas.
 
 
 ```
@@ -122,7 +127,8 @@ chr20   9       -8.865955       -10.400315      -7.432686       -14.034883      
 We can do a sliding window analysis using a window size of 50kb and a step size of 10kb:
 
 ```
-thetaStat do_stat out.thetas.idx -win 50000 -step 10000  -outnames theta.thetasWindow.gz
+${THETASTAT} do_stat POP1.thetas.idx -win 100000 -step 10000  -outnames POP1.thetasWindow.gz
+${THETASTAT} do_stat POP2.thetas.idx -win 100000 -step 10000  -outnames POP2.thetasWindow.gz
 ```
 
 `pestPG` contains the sum of the per site estimates for a region
