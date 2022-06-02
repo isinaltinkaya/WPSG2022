@@ -127,8 +127,8 @@ chr20   9       -8.865955       -10.400315      -7.432686       -14.034883      
 We can do a sliding window analysis using a window size of 50kb and a step size of 10kb:
 
 ```
-${THETASTAT} do_stat POP1.thetas.idx -win 100000 -step 10000  -outnames POP1.thetasWindow.gz
-${THETASTAT} do_stat POP2.thetas.idx -win 100000 -step 10000  -outnames POP2.thetasWindow.gz
+${THETASTAT} do_stat POP1.thetas.idx -win 100000 -step 10000  -outnames POP1
+${THETASTAT} do_stat POP2.thetas.idx -win 100000 -step 10000  -outnames POP2
 ```
 
 `pestPG` contains the sum of the per site estimates for a region
@@ -148,8 +148,16 @@ ${THETASTAT} do_stat POP2.thetas.idx -win 100000 -step 10000  -outnames POP2.the
 
 
 ```
-d<-read.table("POP1.pestPG",header=F)
-colnames(d)<-c("Index","Chr","WinCenter","tW","tP","tF","tH","tL","Tajima","fuf","fud","fayh","zeng","nSites")
-plot(t$Tajima)
-plot(t$tW)
+p1<-read.table("POP1.pestPG",header=F)
+colnames(p1)<-c("Index","Chr","WinCenter","tW","tP","tF","tH","tL","Tajima","fuf","fud","fayh","zeng","nSites")
+p2<-read.table("POP2.pestPG",header=F)
+colnames(p2)<-c("Index","Chr","WinCenter","tW","tP","tF","tH","tL","Tajima","fuf","fud","fayh","zeng","nSites")
+
+plot(p1$WinCenter,p1$Tajima)
+plot(p2$winCenter,p2$Tajima)
+
+#or on same plot
+plot(p2$WinCenter,p2$Tajima,col='blue',lwd=2,type='l',ylim=range(c(p1$Tajima,p2$Tajima)))
+lines(p1$WinCenter,p1$Tajima,col='red',lwd=1)
+legend("bottomright",c("POP1","POP2"),fill=c("red","blue"))
 ```
