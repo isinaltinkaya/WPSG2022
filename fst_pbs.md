@@ -164,11 +164,11 @@ lets use the sfs to calculate some statistics for the population
 
  ##run in R                      
 ## read sfs
-y<-scan("yri.sfs");
-j<-scan("jpt.sfs");
-c<-scan("ceu.sfs");
+yri<-scan("yri.sfs");
+jpt<-scan("jpt.sfs");
+ceu<-scan("ceu.sfs");
 
-x<-y #change this one to try one of the other populations 
+x<-ceu #change this one to try one of the other populations 
 
 nSites<-sum(x)   #Number of sites where we have data
 nSeg<-sum(x[c(-1,-21)])    #Number of segregating sites
@@ -188,9 +188,9 @@ three populations.
 ## Fst and PBS In order to estimate Fst between two population we will need to estimate the 2-dimensional frequency spectrum from the site allele frequency likelihoods
 
     #calculate the 2D SFS 
-    $REAL yri.saf.idx ceu.saf.idx >yri.ceu.ml &
-    $REAL yri.saf.idx jpt.saf.idx >yri.jpt.ml &
-    $REAL jpt.saf.idx ceu.saf.idx >jpt.ceu.ml
+    $REALSFS yri.saf.idx ceu.saf.idx >yri.ceu.ml &
+    $REALSFS yri.saf.idx jpt.saf.idx >yri.jpt.ml &
+    $REALSFS jpt.saf.idx ceu.saf.idx >jpt.ceu.ml
 
 Plot the results in R
 
