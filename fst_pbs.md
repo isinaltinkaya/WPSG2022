@@ -217,6 +217,7 @@ x11()
 plot2(jc,ylab="JPT",xlab="CEU")
 ```
 If you had problems running the above commands the plots can be found [here](results/2dsfs.pdf)
+
 Due to the very limited amount of data the plots are very noisy. However
 they are still informative.The colors indicate the density. High density
 means many sites will look like this and low density (green) means that
@@ -253,8 +254,8 @@ look at the weigthed Fst (Fst.Weight).
 Lets see how the Fst and PBS varies between different regions of the
 genome my using a sliding windows approach (windows site of 50kb)
 
-    $REAL fst index yri.saf.idx jpt.saf.idx ceu.saf.idx -fstout yri.jpt.ceu -sfs yri.jpt.ml -sfs yri.ceu.ml -sfs jpt.ceu.ml
-    $REAL fst stats2 yri.jpt.ceu.fst.idx -win 50000 -step 10000 >slidingwindowBackground
+    $REALSFS fst index yri.saf.idx jpt.saf.idx ceu.saf.idx -fstout yri.jpt.ceu -sfs yri.jpt.ml -sfs yri.ceu.ml -sfs jpt.ceu.ml
+    $REALSFS fst stats2 yri.jpt.ceu.fst.idx -win 50000 -step 10000 >slidingwindowBackground
 
 read the data into R
 
