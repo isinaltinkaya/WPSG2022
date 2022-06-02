@@ -1,3 +1,7 @@
+This exercise revolves around obtaining site frequency spectra from two different populations and see if we can find any sign of selection.
+
+The input data are simulated bcffiles and should reflect chr20 in a european population.
+
 # Sitefrequency spectrum and VCF files
 
 ###
@@ -19,6 +23,8 @@ ls ${DATA}
 ```
 ${ANGSD} -vcf-gl ${DATA}/POP1.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP1
 ${ANGSD} -vcf-gl ${DATA}/POP2.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP2
+
+
 ##if the above runs takes forever, (it took 5minutes on my desktop),
 ##we can limit the analyses to 30megabases in the central part of chromosome20
 ${ANGSD} -vcf-gl ${DATA}/POP1.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP1 -r chr20:20000000-50000000
