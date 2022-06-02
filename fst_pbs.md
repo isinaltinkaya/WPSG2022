@@ -216,7 +216,7 @@ plot2(yj,ylab="YRI",xlab="JPT")
 x11()
 plot2(jc,ylab="JPT",xlab="CEU")
 ```
-
+If you had problems running the above commands the plots can be found [here](results/2dsfs.pdf)
 Due to the very limited amount of data the plots are very noisy. However
 they are still informative.The colors indicate the density. High density
 means many sites will look like this and low density (green) means that
@@ -235,14 +235,14 @@ In order to get a measure of this populations are most closely related
 we willl estimate the pairwise Fst
 
     #first will will index the sample so the same sites are analysed for each population
-    $REAL fst index jpt.saf.idx ceu.saf.idx -sfs jpt.ceu.ml -fstout jpt.ceu
-    $REAL fst index yri.saf.idx ceu.saf.idx -sfs yri.ceu.ml -fstout yri.ceu
-    $REAL fst index yri.saf.idx jpt.saf.idx -sfs yri.jpt.ml -fstout yri.jpt
+    $REALSFS fst index jpt.saf.idx ceu.saf.idx -sfs jpt.ceu.ml -fstout jpt.ceu
+    $REALSFS fst index yri.saf.idx ceu.saf.idx -sfs yri.ceu.ml -fstout yri.ceu
+    $REALSFS fst index yri.saf.idx jpt.saf.idx -sfs yri.jpt.ml -fstout yri.jpt
     
     #get the global estimate
-    $REAL fst stats jpt.ceu.fst.idx
-    $REAL fst stats yri.jpt.fst.idx
-    $REAL fst stats yri.ceu.fst.idx 
+    $REALSFS fst stats jpt.ceu.fst.idx
+    $REALSFS fst stats yri.jpt.fst.idx
+    $REALSFS fst stats yri.ceu.fst.idx 
 
 look at the weigthed Fst (Fst.Weight).
 
