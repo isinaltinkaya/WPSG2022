@@ -6,6 +6,7 @@ First setup some paths and environment variables
 ```
 DATA="BCF"
 ANGSD="angsd"
+REALSFS="realsfs"
 ```
 
 Validate that we have setup our variables correctly
@@ -28,6 +29,7 @@ Which files was generated?
 
 |Filetype     | Explanation                                           |
 | --- | ------------------------------------------ |
+| arg | arguments used for the analysis   |
 | saf.gz | containing the sample allele frequencies for all sites   |
 | saf.pos.gz | containing the position         |
 | saf.idx | index file containing the binary offset |
@@ -35,12 +37,31 @@ Which files was generated?
 
 
 ### Site frequency spectrum
-
+The data are the sample allele frequency loglikelihoods these can be viewed with:
+```
+realSFS print FILE.saf.idx|head
+```
+The first two columns are the chromosome and position followed by the saf for each bin. We can obtain an estimate of the global site frequency spectrum for each popoulation using the following commands
  
 ```
-realSFS POP1.saf.idx > POP1.sfs
+${REALSFS} POP1.saf.idx > POP1.sfs
+${REALSFS} POP2.saf.idx > POP2.sfs
 ```
 
+Have a look at the .sfs files :
+
+```
+cat POP1.sfs
+cat POP2.sfs
+```
+We need to plot these, we will use R
+
+```
+p1 <- scan(POP1.sfs)
+p2 <- scan(POP2.sfs)
+barplot(rbind(p1,p2))
+barplot(rbind(p1,p2)[,-1])
+```
 
 
 ### Allele frequency posterior probabilities and associated statistics (`-doThetas`)
