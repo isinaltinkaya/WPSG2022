@@ -4,6 +4,17 @@
 ## Site frequency spectrum
 
 
+
+### Allele frequency posterior probabilities and associated statistics (`-doThetas`)
+
+| Column index | 1           | 2        | 3                                                           | 4                                                           | 5              | 6                                                         | 7                                          |
+|--------------|-------------|----------|-------------------------------------------------------------|-------------------------------------------------------------|----------------|-----------------------------------------------------------|--------------------------------------------|
+| Column ID    | #Chromo     | Pos      | Watterson                                                   | Pairwise                                                    | thetaSingleton | thetaH                                                    | thetaL                                     |
+| Example data | chr20       | 1        | -13.837903                                                  | -15.382814                                                  | -12.393384     | -19.039749                                                | -16.050478                                 |
+|              | Contig name | Position | Watterson's theta                                           | ThetaD Nucleotide diversity                                 |                | FayH                                                      | L                                          |
+|              |             |          | $$\sum _{i=1}^{n-1} \eta _i/a^{-1}, a= \sum _{i=1}^{n-1}i $$ | $${{n} \choose {2}}^{-1} \sum _{i=1}^{n-1}i(n-i) \eta _i $$ | $$\eta _ 1$$ | $${{n} \choose {2}}^{-1} \sum _{i=1}^{n-1}i^ 2 \eta _i$$ | $${n-1}^{-1} \sum _{i=1}^{n-1}i \eta _i $$ |
+
+
 We can now use the SFS as prior information using `-pest`
 
 Compute the allele frequency posterior probabilities and associated statistics (`-doThetas`)
@@ -11,6 +22,8 @@ Compute the allele frequency posterior probabilities and associated statistics (
 ```
 realSFS saf2theta sim_rep0_d10.saf.idx -sfs simulations/sfs/sim_rep0_d10.sfs -outname o
 ```
+
+- out.thetas.idx
 
 
 ```
