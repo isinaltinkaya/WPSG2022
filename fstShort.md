@@ -1,36 +1,59 @@
 The data is from the 1000 genomes project which included the
 populations:
 
-|     |                                                |
-| --- | ---------------------------------------------- |
-| ASW | HapMap African ancestry individuals from SW US |
-| CEU | European individuals                           |
-| CHB | Han Chinese in Beijing                         |
-| JPT | JPT Japanese individuals                       |
-| YRI | Yoruba individuals                             |
-| MXL | Mexican individuals from LA California         |
+|     |                                            |
+| --- | ------------------------------------------ |
+| CEU | Europeans (mostly of British ancestry)     |
+| JPT | East Asian - Japanese individuals          |
+| YRI | West African - Nigerian Yoruba individuals |
+
+  
+
+Due to computation We will use a very reduced data set:
+
+  - Input data: bam files
+
+  - 10 individuals from each population
+
+  - a very reduced genome 30 x 100k random regions across the autosomes
+    + a non-random region
+
+  - Each individual is sequenced at 2-6X
+
+**Aims**:
+
+  - To reconstruct the SFS (1D and 2D)
+
+  - To estimate Fst between pairs of popualtions
+
+  - To perform a scan statistics using PBS to detect signs of positive
+    selection
 
 First set some paths
 
 # set some paths
 
-    ##must be done every time you open a new terminal
+    # NB this must be done every time you open a new terminal
+    ThePath=/gdc_home2/groups/BAG18/3_wednesday
     
-    #ANGSD program
-    ANGSD=/gdc_home5/groups/bag2017/thursday/prog/angsd/angsd
+    # Set path to ANGSD program
+    ANGSD=$ThePath/prog/angsd/angsd
     
     #realSFS
-    REAL=/gdc_home5/groups/bag2017/thursday/prog/angsd/misc/realSFS
+    REAL=$ThePath/prog/angsd/misc/realSFS
     
     #ancestral fasta file (chimp)
-    ANC=/gdc_home5/groups/bag2017/thursday/data/chimp/hg19ancNoChr.fa.gz
+    ANC=$ThePath/sfs/data/hg19ancNoChr.fa.gz
     
-    #reference genome for human
-    REF=/gdc_home5/groups/bag2017/thursday/data/ref/hg19.fa.gz
+    #reference genome for human 
+    REF=$ThePath/sfs/data/hg19.fa.gz
     
     # a bam filelist for a several bam files
-    BAMFOLDER=/gdc_home5/groups/bag2017/thursday/data/smallerbams
-    BAMFOLDERchr5=/gdc_home5/groups/bag2017/thursday/data/chr5_33M_v2
+    BAMFOLDER=$ThePath/sfs/data/smallerbams
+    BAMFOLDERchr5=$ThePath/sfs/data/chr5_33M_v2
+    
+    #copy R plot function to folder
+    cp $ThePath/sfs/plot2dSFS.R .
 
 make some file lists of bam files
 
@@ -44,10 +67,9 @@ make some file lists of bam files
 # Reconstructing the site frequency spectrum
 
 First lets set some filter to remove the worst reads (minMapQ), remove
-the worst of the bases (minQ), adjust the mapping quality (baq,C),
-remove sites where less than 8 indivduals have data (minInd).
+the worst of the bases (minQ).
 
-    FILTERS="-minMapQ 30 -minQ 20 -minInd 8"
+    FILTERS="-minMapQ 30 -minQ 20"
 
 Lets set some options that means we will calculate genotype likelihoods
 using the GATK model (gl) and calculate the site allele frequency
@@ -57,15 +79,17 @@ likelihoods (saf)
 
 Generate site frequency likelihoods using ANGSD
 
-    $ANGSD -P 3 -b  YRI.filelist  -anc $ANC -out yri $FILTERS $OPT -ref $REF &
-    $ANGSD -P 3 -b  JPT.filelist  -anc $ANC -out jpt $FILTERS $OPT -ref $REF &
-    $ANGSD -P 3 -b  CEU.filelist  -anc $ANC -out ceu $FILTERS $OPT -ref $REF
+    $ANGSD -b  YRI.filelist  -anc $ANC -out yri $FILTERS $OPT -ref $REF &
+    $ANGSD -b  JPT.filelist  -anc $ANC -out jpt $FILTERS $OPT -ref $REF &
+    $ANGSD -b  CEU.filelist  -anc $ANC -out ceu $FILTERS $OPT -ref $REF
 
-The run time is a couple of minutes each. If you are impatient then your
-can stop the run using CTRL-C and copy the output to your directory
-using this command
+The run time is a couple of minutes
 
-    cp /gdc_home5/groups/bag2017/thursday/run1/* .
+If it talks to long then you can copy the results using this command:
+
+    cp $ThePath/run/yri.saf* .
+    cp $ThePath/run/ceu.saf* .
+    cp $ThePath/run/jpt.saf* .
 
 Estimate the site frequency spectrum for each of the 3 populations
 without having to call genotypes or variable sites directly from the
@@ -100,7 +124,7 @@ barplot(res,beside=T,legend=c("YRI","JPT","CEU"),names=1:20,main="realSFS non an
 resPoly <- t(apply(res[,-20],1,nnorm))
 barplot(resPoly,beside=T,legend=c("YRI","JPT","CEU"),names=1:19,main="realSFS polymorphic sites")
 
-#due the very limited amount of data lets 
+#due the very limited amount of sites
 #downsample to 5 individuals (10 chromosome) and exclude fixed derived
 downsampleSFS <- function(x,chr){ #x 1:2n , chr < 2n
     n<-length(x)
@@ -111,77 +135,14 @@ resDown <- t(apply(res,1,downsampleSFS,chr=10))
 barplot(resDown,beside=T,legend=c("YRI","JPT","CEU"),names=1:9,main="realSFS downsampled polymorphic sites")
 ```
 
-See [plot](http://popgen.dk/albrecht/open/bgi/sfs1.pdf)
-
   - Which population has the largest population size?
 
-  - These individuals are a subset of the 1000Genomes individuals. If
-    you analyse a whole chromosome the results will look [like
-    this](../Moltke5V2.pdf)
+  - The data is a small subset of the genome (2Mb). If you had analysed
+    6Mb it sould have looked like
+    [this](http://popgen.dk/albrecht/phdcourse/html/plots/realSFS4.pdf)
 
-close R
-
-We can compare with what happens if we try to call genotypes by calling
-SNPs and genotypes like GATK. If you are running out of time then skip
-this part
-
-``` 
-FILTERS="-minMapQ 30 -minQ 20 -baq 1 -C 50 -minInd 10"                           
-
-OPT2="-gl 2 -doGeno 2 -doPost 2 -doMajorMinor 4 -doMaf 1 -SNP_pval 1e-6 -postCutoff 0.9"
-$ANGSD -P 3 -b YRI.filelist  -out yri $FILTERS $OPT2 -ref $REF &  
-$ANGSD -P 3 -b JPT.filelist  -out jpt $FILTERS $OPT2 -ref $REF &
-$ANGSD -P 3 -b CEU.filelist  -out ceu $FILTERS $OPT2 -ref $REF  
-```
-
-The run time is a couple of minutes each. If you are impatient then your
-can stop the run using CTRL-C and copy the output to your directory
-using this command
-
-    cp /gdc_home5/groups/bag2017/thursday/run2/*
-
-Plot the results in R
-
-``` 
- ##run in R                      
-#plot the results
-nnorm <- function(x) x/sum(x)
-getSFS<-function(x) table(factor(rowSums(read.table(x)[,-c(1:2)]),levels=1:20))
-
-res <- rbind(
-  YRI=getSFS("yri.geno.gz"),
-  JPI=getSFS("jpt.geno.gz"),
-  CEU=getSFS("ceu.geno.gz")
-)
-colnames(res) <- 1:20
-
-# density instead of expected counts
-res <- t(apply(res,1,nnorm))
-
-#plot the none ancestral sites
-barplot(res,beside=T,legend=c("YRI","JPT","CEU"),names=1:20,main="SFS from called genotypes")
-
-#plot the polymorphic sites. 
-resPoly <- t(apply(res[,-20],1,nnorm))
-barplot(resPoly,beside=T,legend=c("YRI","JPT","CEU"),names=1:19,main="SFS from call\
-ed genotypes")
-
-
-#down sample to 5 individuals (10 chromosome) and exclude fixed derived
-downsampleSFS <- function(x,chr){ #x 1:2n , chr < 2n
-    n<-length(x)
-    mat <- sapply(1:chr,function(i) choose(1:n,i)*choose(n- (1:n),chr-i)/choose(n,chr))
-    nnorm( as.vector(t(mat) %*% x)[-chr] )
-}
-resDown <- t(apply(res,1,downsampleSFS,chr=10))
-barplot(resDown,beside=T,legend=c("YRI","JPT","CEU"),names=1:9)
-
-```
-
-See [plot](http://popgen.dk/albrecht/open/bgi/sfs2.pdf)
-
-  - How does this compare to the likelhood based estimates
-    ([pdf](http://popgen.dk/albrecht/oulu2016/web/realSFS.pdf))
+  - The analysed whole chromosome for the 1000G individual look [like
+    this](../sfs/Moltke5V2.pdf)
 
 lets use the sfs to calculate some statistics for the population
 
@@ -201,8 +162,6 @@ an <- function(n) sum(1/1:(n-1))
 thetaW <- nSeg/an(20) # Wattersons Theta
 thetaW / 2.5e-8 / nSites / 4 # effective population size
 ```
-
-[R output in case you were not able to run it](Rout1.html)
 
 The above example is for the African population. Try to run it for all
 three populations.
@@ -226,7 +185,7 @@ Plot the results in R
 yc<-scan("yri.ceu.ml")
 yj<-scan("yri.jpt.ml")
 jc<-scan("jpt.ceu.ml")
-    source("http://popgen.dk/albrecht/BAG2017/plot2dSFS.R")
+    source("plot2dSFS.R")
 plot2<-function(s,...){
     dim(s)<-c(21,21)
     s[1]<-NA
@@ -237,12 +196,12 @@ s<-s/sum(s,na.rm=T)
     pplot(s/sum(s,na.rm=T),pal=pal,...)
 }
 
-plot2(yc,ylab="YRI",xlab="CEU",main="Density of 2D SFS")
-plot2(yj,ylab="YRI",xlab="JPT",main="Density of 2D SFS")
-plot2(jc,ylab="JPT",xlab="CEU",main="Density of 2D SFS")
+plot2(yc,ylab="YRI",xlab="CEU")
+x11()
+plot2(yj,ylab="YRI",xlab="JPT")
+x11()
+plot2(jc,ylab="JPT",xlab="CEU")
 ```
-
-See [plot](http://popgen.dk/albrecht/open/bgi/sfs2d.pdf)
 
 Due to the very limited amount of data the plots are very noizy. However
 they are still informative.The colors indicate the density. High density
@@ -310,8 +269,6 @@ hist(r$PBS_JPT,col="hotpink",xlim=c(0,mmax),br=20)
 
 ```
 
-See [plot](http://popgen.dk/albrecht/open/bgi/background.pdf)
-
 note the maximum observed values for both the pairwise fst and the PBS
 
 Lets do the same for not so randomly selection 1Mb region of on chr 5.
@@ -331,11 +288,11 @@ FILTERS="-minMapQ 30 -minQ 20 -baq 1 -C 50 -minInd 8"
 OPT=" -dosaf 1 -gl 2"
 
 #get site frequency likelihoods
-$ANGSD -b  YRIchr5.filelist  -anc $ANC -out yriChr5 $FILTERS $OPT -ref $REF &
-$ANGSD -b  JPTchr5.filelist  -anc $ANC -out jptChr5 $FILTERS $OPT -ref $REF &
+$ANGSD -b  YRIchr5.filelist  -anc $ANC -out yriChr5 $FILTERS $OPT -ref $REF
+$ANGSD -b  JPTchr5.filelist  -anc $ANC -out jptChr5 $FILTERS $OPT -ref $REF
 $ANGSD -b  CEUchr5.filelist  -anc $ANC -out ceuChr5 $FILTERS $OPT -ref $REF
 
-#estimate the 1D SFS - wait until the saf files are done
+#estimate the 1D SFS
 $REAL yriChr5.saf.idx ceuChr5.saf.idx >yri.ceuChr5.ml
 $REAL yriChr5.saf.idx jptChr5.saf.idx >yri.jptChr5.ml
 $REAL jptChr5.saf.idx ceuChr5.saf.idx >jpt.ceuChr5.ml
@@ -344,11 +301,6 @@ $REAL jptChr5.saf.idx ceuChr5.saf.idx >jpt.ceuChr5.ml
 $REAL fst index yriChr5.saf.idx jptChr5.saf.idx ceuChr5.saf.idx -fstout yri.jpt.ceuChr5 -sfs yri.jptChr5.ml -sfs yri.ceuChr5.ml -sfs jpt.ceuChr5.ml
 $REAL fst stats2 yri.jpt.ceuChr5.fst.idx -win 50000 -step 10000 >slidingwindowChr5
 ```
-
-If you are impatient then your can stop the run using CTRL-C and copy
-the output to your directory\\ using this command
-
-    cp /gdc_home5/groups/bag2017/thursday/run3/* .
 
 Lets view how it looks in this region
 
@@ -368,8 +320,6 @@ Lets view how it looks in this region
     points(r$midPos,r$PBS_CEU,col=3,type="b",pch=18)
     legend("topleft",fill=1:3,c("YRI","JPT","CEU"))
 
-see [plot](http://popgen.dk/albrecht/open/bgi/region.pdf)
-
   - Compare the values you observed on this part of the genome with the
     random pars of the genome you looked at earlier
     ([pdf](../../oulu2016/web/PBS.pdf)). Is this region extreme?
@@ -383,7 +333,76 @@ browser](https://genome.ucsc.edu/index.html). Choose Genome browser.
 Choose human GRCh37/hg19 and find the region. Read about this gene on
 wikipedia and see if this fits PBS results.
 
-see [ucsc bowser
-plot](http://popgen.dk/albrecht/open/bgi/hgt_genome_1cdd_e67d90.pdf)
+### Bonus
 
-[Wiki link](https://en.wikipedia.org/wiki/SLC45A2)
+We can compare with what happens if we try to call genotypes by calling
+SNPs and genotypes like GATK. If you are running out of time then skip
+this part
+
+``` 
+FILTERS2="-minMapQ 30 -minQ 20 -minInd 10"                           
+
+OPT2="-gl 2 -doGeno 2 -doPost 2 -doMajorMinor 4 -doMaf 1 -SNP_pval 1e-6 -postCutoff 0.95"
+$ANGSD -b  YRI.filelist  -out yri $FILTERS2 $OPT2 -ref $REF &  
+$ANGSD -b  JPT.filelist  -out jpt $FILTERS2 $OPT2 -ref $REF &
+$ANGSD -b  CEU.filelist  -out ceu $FILTERS2 $OPT2 -ref $REF  
+```
+
+While it runs you can look at the options we choose:
+
+  - *minInd 10*: minimum individuals with data (in this case it means
+    with called genotypers). Why do we need this?
+
+  - *-doGeno 2* Print only the count (0,1,2) and not the based e.g.
+    AA,AT,TT
+
+  - *-doPost 2* Use uniform prior for genotype i.e. call the genotype
+    with the highest likelihood
+
+  - *-DoMajorMinor 4* Use the Ancestral allele from the chimp
+
+  - *-doMaf 1 -SNP\_pval 1e-6* Use this p-value cutoff to call SNPs.
+    What would happend to the SFS if you change this threshold?
+
+  - *-PostCutoff 0.95* only call genotype with a propability above 0.95
+
+Plot the results in R
+
+``` 
+ ##run in R                      
+#plot the results
+nnorm <- function(x) x/sum(x)
+getSFS<-function(x) table(factor(rowSums(read.table(x)[,-c(1:2)]),levels=1:20))
+
+res <- rbind(
+  YRI=getSFS("yri.geno.gz"),
+  JPI=getSFS("jpt.geno.gz"),
+  CEU=getSFS("ceu.geno.gz")
+)
+colnames(res) <- 1:20
+
+# density instead of expected counts
+res <- t(apply(res,1,nnorm))
+
+#plot the none ancestral sites
+barplot(res,beside=T,legend=c("YRI","JPT","CEU"),names=1:20,main="SFS from called genotypes")
+
+#plot the polymorphic sites. 
+resPoly <- t(apply(res[,-20],1,nnorm))
+barplot(resPoly,beside=T,legend=c("YRI","JPT","CEU"),names=1:19,main="SFS from call\
+ed genotypes")
+
+
+#down sample to 5 individuals (10 chromosome) and exclude fixed derived
+downsampleSFS <- function(x,chr){ #x 1:2n , chr < 2n
+    n<-length(x)
+    mat <- sapply(1:chr,function(i) choose(1:n,i)*choose(n- (1:n),chr-i)/choose(n,chr))
+    nnorm( as.vector(t(mat) %*% x)[-chr] )
+}
+resDown <- t(apply(res,1,downsampleSFS,chr=10))
+barplot(resDown,beside=T,legend=c("YRI","JPT","CEU"),names=1:9)
+
+```
+
+  - How does this compare to the likelhood based estimates
+    ([pdf](../html/plots/realSFS.pdf))
