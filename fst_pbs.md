@@ -148,15 +148,15 @@ downsampleSFS <- function(x,chr){ #x 1:2n , chr < 2n
 resDown <- t(apply(res,1,downsampleSFS,chr=10))
 barplot(resDown,beside=T,legend=c("YRI","JPT","CEU"),names=1:9,main="realSFS downsampled polymorphic sites")
 ```
-
+If you had problems with the above commands the plots can also be found [her](results/yri.jpt.ceu.1dsfs.pdf)
   - Which population has the largest population size?
 
   - The data is a small subset of the genome (2Mb). If you had analysed
     6Mb it sould have looked like
-    [this](http://popgen.dk/albrecht/phdcourse/html/plots/realSFS4.pdf)
+    [this](results/realSFS4.pdf)
 
   - The analysed whole chromosome for the 1000G individual look [like
-    this](../sfs/Moltke5V2.pdf)
+    this](results/full1dsfs.pdf)
 
 lets use the sfs to calculate some statistics for the population
 
