@@ -7,37 +7,27 @@ The dataset for this exercise consists of two [bamfiles](ancient_data/) these ar
   - Figure out which sample looks ancient and which one looks modern
 
 
-First set some paths
+
 
 # Set some environment variables and paths
+
+First set some paths   
 
     # NB this must be done every time you open a new terminal
 
     
-    # Set path to ANGSD program
-    ANGSD=angsd/angsd
+    # Set path to samtools program
+    SAMTOOLS=samtools/samtools
     
-    #realSFS
-    REALSFS=angsd/misc/realSFS
-    
-    #ancestral fasta file (chimp)
-    ANC=hg19ancNoChr.fa.gz
-    
-    #reference genome for human 
-    REF=hg19.fa.gz
-    
-    # a bam filelist for a several bam files
-    BAMFOLDER=dt/smallerbams
-    BAMFOLDERchr5=dt/chr5_33M_v2
-    
-    #copy R plot function to folder
-    cp dt/plot2dSFS.R .
+    # Set path to folder containing data
+    DATAFOLDER=dt/smallerbams
 
 
 Let us first validate that we setup our variables correctly
 
+
 ```
-ls ${ANGSD} ${REALSFS} ${ANC} ${REF} ${BAMFOLDER} ${BAMFOLDERchr5} plot2dSFS.R
+ls ${SAMTOOLS} ${DATAFOLDER}
 ```
 
 
