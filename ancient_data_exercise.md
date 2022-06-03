@@ -108,7 +108,16 @@ plot(holmes[,2],holmes[,1],main="Holmes",type='l',col=2,lwd=2)
 If you had problems with the R commands the result can be found [here](results/sherlock.holmes.rlen.pdf)
 
 
+Let us also look at the proportion of duplicates(clonality)
 
+```
+${SAMTOOLS} rmdup -s sherlock.sorted.bam sherlock.sorted.rmdup
+${SAMTOOLS} rmdup -s holmes.sorted.bam holmes.sorted.rmdup
+```
+
+What is reported, which ones contains the most duplicates?
+
+From these files we have also precomputed the nucleotide misincorporaton for each cycle of the read. A plot of these can be found [sherlock](results/sherlock.nmis.pdf) [holmes](results/holmes.nmis.pdf)
 
 First lets set some filter to remove the worst reads (minMapQ), remove
 the worst of the bases (minQ).
