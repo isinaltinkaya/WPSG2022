@@ -20,7 +20,7 @@ First set some paths
     SAMTOOLS=samtools/samtools
     
     # Set path to folder containing data
-    DATAFOLDER=dt/smallerbams
+    DATAFOLDER=dt/ancient_data/
 
 
 Let us first validate that we setup our variables correctly
@@ -30,23 +30,44 @@ Let us first validate that we setup our variables correctly
 ls ${SAMTOOLS} ${DATAFOLDER}
 ```
 
+# Summary statistic and convertion
 
-Make some file lists of bam files
-
-    #a African population
-    find $BAMFOLDER | grep bam$ | grep YRI > YRI.filelist
-    #a Asian population
-    find $BAMFOLDER | grep bam$ | grep JPT > JPT.filelist
-    #a European population
-    find $BAMFOLDER | grep bam$ | grep CEU > CEU.filelist
-
-Let us see how many samples we have in each population
+We have two files called holmes.sam.gz and sherlock.sam.gz. Let us copy these files to our working directory.
 
 ```
-wc -l *.filelist
+cp ${DATAFOLDER}/* .
 ```
 
-# Reconstructing the site frequency spectrum
+Let us try to view the uncompressed version of one of the files.
+
+```
+gunzip -c sherlock.sam.gz|less -NS
+```
+We are piping the output from the uncompression into the less commands and are supplying less with the arguments -NS, this will give us line number and we can use the arrows to got up and down left and right. You exit the commands by pressing q.
+
+ 1. Identify the header
+ 2. How many lines does the header span
+
+Let us see how many reads we have in these two files
+
+```
+gunzip -c sherlock.sam.gz |grep -P "^@" -v |wc -l
+gunzip -c holmes.sam.gz |grep -P "^@" -v |wc -l
+```
+
+Now let us convert the SAM files to BAM files
+
+```
+${SAMTOOLS} view -b sherlock.sam.gz -o sherlock.bam
+${SAMTOOLS} view -b holmes.sam.gz -o holmes.bam
+```
+
+Try to look at one of the BAM files using samtools view, is there are difference from uncompressing the .sam.gz file?
+
+```
+${SAMTOOLS} view sherlock.bam|less -SN
+```
+
 
 First lets set some filter to remove the worst reads (minMapQ), remove
 the worst of the bases (minQ).
