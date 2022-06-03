@@ -67,6 +67,47 @@ Try to look at one of the BAM files using samtools view, is there are difference
 ```
 ${SAMTOOLS} view sherlock.bam|less -SN
 ```
+Are the reads ordered?
+
+We can sort the file using samtools sort
+
+```
+${SAMTOOLS} sort sherlock.bam -OBAM -o sherlock.sorted.bam
+${SAMTOOLS} sort holmes.bam -OBAM -o holmes.sorted.bam
+```
+
+Visually inspect that they are sorted using previous view pipe less command
+```
+${SAMTOOLS} view sherlock.sorted.bam|less -SN
+```
+
+Let us find the proportion of reads the maps (endogenous content) for each file
+
+```
+${SAMTOOLS} flagstat sherlock.sorted.bam
+${SAMTOOLS} flagstat holmes.sorted.bam
+```
+
+Let us look at the distribution of read lengths (for the read that maps)
+
+```
+${SAMTOOLS} view -F4 sherlock.sorted.bam |awk '{print length($10)}'|sort -n |uniq -c >sherlock.readlength
+${SAMTOOLS} view -F4 holmes.sorted.bam |awk '{print length($10)}'|sort -n |uniq -c >holmes.readlength
+```
+
+Let us load the data into R and plot it
+
+```
+sherlock <-read.table("sherlock.readlength")
+holmes <-read.table("holmes.readlength")
+par(mfrow=c(1,2))
+plot(sherlock[,2],sherlock[,1],main="Sherlock",type='l',col=1,lwd=2)
+plot(holmes[,2],holmes[,1],main="Holmes",type='l',col=2,lwd=2)
+
+```
+If you had problems with the R commands the result can be found [here](results/sherlock.holmes.rlen.pdf)
+
+
 
 
 First lets set some filter to remove the worst reads (minMapQ), remove
