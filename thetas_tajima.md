@@ -1,13 +1,13 @@
-This exercise revolves around obtaining site frequency spectra from two different populations and see if we can find any sign of selection.
+This exercise revolves around obtaining site frequency spectra from two different populations and see if we can find any signs of selection.
 
-The input data are simulated bcffiles and should reflect chr20 in a european population.
+The input data is simulated bcf files and represents the chr20 in a European population. The simulation has been done using an average per site depth of 10 and an error rate of 0.005.
 
-ISIN fill in information regarding seqdepth and error rate
 
-# Sitefrequency spectrum and VCF files
+# Site frequency spectrum and VCF files
 
-###
+
 First setup some paths and environment variables
+
 
 ```
 DATA="WORKSHOP_DATA/data/bcf"
@@ -17,6 +17,7 @@ THETASTAT="angsd/misc/thetaStat"
 ```
 
 Validate that we have setup our variables correctly
+
 ```
 ls ${DATA} ${ANGSD} ${REALSFS} ${THETASTAT}
 ```
@@ -28,10 +29,10 @@ WORKSHOP_DATA/data/bcf:
 chr20.fa.gz  chr20.fa.gz.fai  chr20.fa.gz.gzi  POP1.bcf  POP1.bcf.csi  POP2.bcf  POP2.bcf.csi
 ```
 
-###Understanding VCF/BCF
+### Understanding VCF/BCF files
 
-1. How many sites do we have in the BCFS
-2. How many individuals do we have in the BCFS
+1. How many sites do we have in the BCFs?
+2. How many individuals do we have in the BCFs?
 
 
 ### Site allele frequencies
@@ -52,30 +53,34 @@ Which files was generated?
 |Filetype     | Explanation                                           |
 | --- | ------------------------------------------ |
 | arg | arguments used for the analysis   |
-| saf.gz | containing the sample allele frequencies for all sites   |
-| saf.pos.gz | containing the position         |
-| saf.idx | index file containing the binary offset |
+| saf.gz | contains the sample allele frequencies for all sites   |
+| saf.pos.gz | contains the positions         |
+| saf.idx | index file; contains the binary offsets |
 
 
 
 ### Site frequency spectrum
-The data are the sample allele frequency loglikelihoods these can be viewed with:
+
+The data is the sample allele frequency log-likelihoods. These can be viewed with:
+
 ```
 ${REALSFS} print FILE.saf.idx|head
 ```
-The first two columns are the chromosome and position followed by the saf for each bin. We can obtain an estimate of the global site frequency spectrum for each popoulation using the following commands
+
+The first two columns are the chromosome and position followed by the saf for each bin. We can obtain an estimate of the global site frequency spectrum for each popoulation using the following commands:
  
 ```
 ${REALSFS} POP1.saf.idx > POP1.sfs
 ${REALSFS} POP2.saf.idx > POP2.sfs
 ```
 
-Have a look at the .sfs files. If you had problems generating them, they can also be found [here](results/)
+Have a look at the `.sfs` files. If you had problems generating them, they can also be found [here](results/)
 
 ```
 cat POP1.sfs
 cat POP2.sfs
 ```
+
 We need to plot these, we will use R
 
 ```
@@ -88,9 +93,9 @@ barplot(p2[-1])
 ```
 See plot [here](results/p1.p2.pdf)
 
-1. How many segregating(variable) sites do we have in each of the populations?
+1. How many segregating (variable) sites do we have in each of the populations?
 
-2. What is the probability of variability ?
+2. What is the probability of variability?
 
 ```
 sum(p1[-1])
@@ -98,10 +103,12 @@ sum(p2[-1])
 sum(p1[-1])/sum(p1)
 sum(p2[-1])/sum(p2)
 ```
+
 Why are we discarding the first bin? Should we discard other bins?
 
 
 ### Allele frequency posterior probabilities and associated statistics
+
 We are interested in performing a sliding window analyses using various estimates of the population scaled mutation rate. We can precompute the persite theta estimates by using the following commands
 
 ```
@@ -113,8 +120,8 @@ Which files was generated?
 
 |Filetype     | Explanation                                           |
 | --- | ------------------------------------------ |
-| .thetas.gz | containing the thetas persite   |
-| .thetas.idx | index file containing the binary offset |
+| .thetas.gz | Contains the thetas persite   |
+| .thetas.idx | Index file, contains the binary offsets |
 
 
 We can view the theta statistics using `${THETASTAT} print thetas.idx`. This file contains log scaled per site estimates of the thetas.
@@ -123,6 +130,7 @@ We can view the theta statistics using `${THETASTAT} print thetas.idx`. This fil
 ```
 ${THETASTAT} print POP1.thetas.idx
 ```
+
 ```
 $thetaStat print testout.thetas.idx 2>/dev/null |head                        
 #Chromo Pos     Watterson       Pairwise        thetaSingleton  thetaH  thetaL                   
@@ -178,4 +186,5 @@ plot(p2$WinCenter/1e6,p2$Tajima,col='blue',lwd=2,type='l',ylim=range(c(p1$Tajima
 lines(p1$WinCenter/1e6,p1$Tajima,col='red',lwd=1)
 legend("bottomright",c("POP1","POP2"),fill=c("red","blue"))
 ```
+
 Plots can also be found [here](results/thetas.tajima.pdf)
