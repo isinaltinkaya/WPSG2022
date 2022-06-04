@@ -9,7 +9,7 @@ populations:
 
   
 
-Due to computation We will use a very reduced data set:
+Due to computational limits we will use a very reduced data set:
 
   - Input data: bam files
 
@@ -20,7 +20,7 @@ Due to computation We will use a very reduced data set:
 
   - Each individual is sequenced at 2-6X
 
-**Aims**:
+**Objectives**:
 
   - To reconstruct the SFS (1D and 2D)
 
@@ -29,7 +29,7 @@ Due to computation We will use a very reduced data set:
   - To perform a scan statistics using PBS to detect signs of positive
     selection
 
-First set some paths
+First, let's set some paths
 
 # Set some environment variables and paths
 
@@ -80,12 +80,12 @@ wc -l *.filelist
 
 # Reconstructing the site frequency spectrum
 
-First lets set some filter to remove the worst reads (minMapQ), remove
+First let's set some filter to remove the worst reads (minMapQ), remove
 the worst of the bases (minQ).
 
     FILTERS="-minMapQ 30 -minQ 20"
 
-Lets set some options that means we will calculate genotype likelihoods
+Let's set some options that means we will calculate genotype likelihoods
 using the GATK model (gl) and calculate the site allele frequency
 likelihoods (saf)
 
@@ -97,9 +97,9 @@ Generate site frequency likelihoods using ANGSD
     $ANGSD -b  JPT.filelist  -anc $ANC -out jpt $FILTERS $OPT -ref $REF &
     $ANGSD -b  CEU.filelist  -anc $ANC -out ceu $FILTERS $OPT -ref $REF
 
-The run time is a couple of minutes
+The run time is a couple of minutes.
 
-If it talks to long then you can copy the results using this command:
+If it takes too long then you can copy the results using this command:
 
     cp dt/yri.saf* .
     cp dt/ceu.saf* .
@@ -114,7 +114,7 @@ site frequency likelihoods
     $REALSFS jpt.saf.idx > jpt.sfs
     $REALSFS ceu.saf.idx > ceu.sfs
 
-In order to plot the results open R and make a barplot
+In order to plot the results; open R and make a barplot
 
 ``` 
  ##run in R                      
@@ -131,7 +131,7 @@ colnames(res) <- 1:20
 # density instead of expected counts
 res <- t(apply(res,1,nnorm))
 
-#plot the none ancestral sites
+#plot the non-ancestral sites
 barplot(res,beside=T,legend=c("YRI","JPT","CEU"),names=1:20,main="realSFS non ancestral sites")
 
 #plot the polymorphic sites. 
@@ -148,21 +148,23 @@ downsampleSFS <- function(x,chr){ #x 1:2n , chr < 2n
 resDown <- t(apply(res,1,downsampleSFS,chr=10))
 barplot(resDown,beside=T,legend=c("YRI","JPT","CEU"),names=1:9,main="realSFS downsampled polymorphic sites")
 ```
-If you had problems with the above commands the plots can also be found [her](results/yri.jpt.ceu.1dsfs.pdf)
+If you had problems with the above commands the plots can also be found [here](results/yri.jpt.ceu.1dsfs.pdf)
+
+
   - Which population has the largest population size?
 
   - The data is a small subset of the genome (2Mb). If you had analysed
-    6Mb it sould have looked like
+    6Mb it should have looked like
     [this](results/realSFS4.pdf)
 
-  - The analysed whole chromosome for the 1000G individual look [like
+  - The analysed whole chromosome for the 1000G individual looks [like
     this](results/full1dsfs.pdf)
 
-lets use the sfs to calculate some statistics for the population
+Let's use the sfs to calculate some statistics for the population:
 
 ``` 
 
- ##run in R                      
+##run in R                      
 ## read sfs
 yri<-scan("yri.sfs");
 jpt<-scan("jpt.sfs");
@@ -180,12 +182,14 @@ thetaW / 2.5e-8 / nSites / 4 # effective population size
 The above example is for the African population. Try to run it for all
 three populations.
 
-  - which has the largest populations size
+  - Which has the largest population size?
 
-  - which has the largest variability (fraction of
-    polymorphic/segregating sites)
+  - Which has the largest variability (fraction of
+    polymorphic/segregating sites)?
 
-## Fst and PBS In order to estimate Fst between two population we will need to estimate the 2-dimensional frequency spectrum from the site allele frequency likelihoods
+## Fst and PBS 
+
+In order to estimate Fst between two populations we will need to estimate the 2-dimensional frequency spectrum from the site allele frequency likelihoods
 
     #calculate the 2D SFS 
     $REALSFS yri.saf.idx ceu.saf.idx >yri.ceu.ml &
@@ -216,24 +220,25 @@ plot2(yj,ylab="YRI",xlab="JPT")
 x11()
 plot2(jc,ylab="JPT",xlab="CEU")
 ```
+
 If you had problems running the above commands the plots can be found [here](results/2dsfs.pdf)
 
 Due to the very limited amount of data the plots are very noisy. However
-they are still informative.The colors indicate the density. High density
+they are still informative. The colors indicate the density. High density
 means many sites will look like this and low density (green) means that
 few sites looks like this.
 
 Based on the plots try to guess
 
   - Which populations has most private SNPs (sites that are only
-    polymorphic in this population)
+    polymorphic in this population)?
 
   - Which two populatons are most closely related?
 
 close R
 
 In order to get a measure of this populations are most closely related
-we willl estimate the pairwise Fst
+we will estimate the pairwise Fst
 
     #first will will index the sample so the same sites are analysed for each population
     $REALSFS fst index jpt.saf.idx ceu.saf.idx -sfs jpt.ceu.ml -fstout jpt.ceu
@@ -247,11 +252,11 @@ we willl estimate the pairwise Fst
 
 look at the weigthed Fst (Fst.Weight).
 
-  - which two populations are most closely related?
+  - Which two populations are most closely related?
 
-  - which two populations are most distantly related?
+  - Which two populations are most distantly related?
 
-Lets see how the Fst and PBS varies between different regions of the
+Let's see how the Fst and PBS varies between different regions of the
 genome my using a sliding windows approach (windows site of 50kb)
 
     $REALSFS fst index yri.saf.idx jpt.saf.idx ceu.saf.idx -fstout yri.jpt.ceu -sfs yri.jpt.ml -sfs yri.ceu.ml -sfs jpt.ceu.ml
@@ -283,11 +288,13 @@ hist(r$PBS_CEU,col="mistyrose",xlim=c(0,mmax),br=20)
 hist(r$PBS_JPT,col="hotpink",xlim=c(0,mmax),br=20)
 
 ```
+
 If you had problems running the above commands you can find the result [here](results/fst_pbs.pdf)
 
-note the maximum observed values for both the pairwise fst and the PBS
+Note the maximum observed values for both the pairwise fst and the PBS.
 
-Lets do the same for not so randomly selection 1Mb region of on chr 5.
+Let's do the same for not so randomly selection 1Mb region of on chr 5.
+
 Remember to close R
 
 ``` 
@@ -318,7 +325,7 @@ $REALSFS fst index yriChr5.saf.idx jptChr5.saf.idx ceuChr5.saf.idx -fstout yri.j
 $REALSFS fst stats2 yri.jpt.ceuChr5.fst.idx -win 50000 -step 10000 >slidingwindowChr5
 ```
 
-Lets view how it looks in this region
+Let's view how it looks in this region
 
     #run in R
     r<-read.delim("slidingwindowChr5",as.is=T,head=T)
