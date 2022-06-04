@@ -20,7 +20,7 @@ Due to computational limits we will use a very reduced data set:
 
   - Each individual is sequenced at 2-6X
 
-**Objectives**:
+**Aims**:
 
   - To reconstruct the SFS (1D and 2D)
 
