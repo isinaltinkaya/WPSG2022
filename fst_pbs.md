@@ -15,7 +15,7 @@ Due to computational limits we will use a very reduced data set:
 
   - 10 individuals from each population
 
-  - a very reduced genome 30 x 100k random regions across the autosomes
+  - A very reduced genome 30 x 100k random regions across the autosomes
     + a non-random region
 
   - Each individual is sequenced at 2-6X
@@ -80,26 +80,26 @@ wc -l *.filelist
 
 # Reconstructing the site frequency spectrum
 
-First let's set some filter to remove the worst reads (minMapQ), remove
-the worst of the bases (minQ).
+First let's set some filter to remove the worst reads (`-minMapQ`), remove
+the worst of the bases (`-minQ`).
 
     FILTERS="-minMapQ 30 -minQ 20"
 
 Let's set some options that means we will calculate genotype likelihoods
-using the GATK model (gl) and calculate the site allele frequency
-likelihoods (saf)
+using the GATK model (`-gl`) and calculate the site allele frequency
+likelihoods (`-saf`)
 
     OPT=" -dosaf 1 -gl 2"
 
-Generate site frequency likelihoods using ANGSD
+Generate site frequency likelihoods using ANGSD:
 
     $ANGSD -b  YRI.filelist  -anc $ANC -out yri $FILTERS $OPT -ref $REF &
     $ANGSD -b  JPT.filelist  -anc $ANC -out jpt $FILTERS $OPT -ref $REF &
     $ANGSD -b  CEU.filelist  -anc $ANC -out ceu $FILTERS $OPT -ref $REF
 
-The run time is a couple of minutes.
+The expected runtime is a couple of minutes.
 
-If it takes too long then you can copy the results using this command:
+If it takes too long, then you can copy the results using this command:
 
     cp dt/yri.saf* .
     cp dt/ceu.saf* .
@@ -107,7 +107,7 @@ If it takes too long then you can copy the results using this command:
 
 Estimate the site frequency spectrum for each of the 3 populations
 without having to call genotypes or variable sites directly from the
-site frequency likelihoods
+site frequency likelihoods:
 
     #calculate the 1 dimensional SFS
     $REALSFS yri.saf.idx > yri.sfs
@@ -128,7 +128,7 @@ res <- rbind(
 )
 colnames(res) <- 1:20
 
-# density instead of expected counts
+#density instead of expected counts
 res <- t(apply(res,1,nnorm))
 
 #plot the non-ancestral sites
@@ -148,7 +148,8 @@ downsampleSFS <- function(x,chr){ #x 1:2n , chr < 2n
 resDown <- t(apply(res,1,downsampleSFS,chr=10))
 barplot(resDown,beside=T,legend=c("YRI","JPT","CEU"),names=1:9,main="realSFS downsampled polymorphic sites")
 ```
-If you had problems with the above commands the plots can also be found [here](results/yri.jpt.ceu.1dsfs.pdf)
+
+If you had problems with the above commands, the plots can also be found [here](results/yri.jpt.ceu.1dsfs.pdf)
 
 
   - Which population has the largest population size?
@@ -163,7 +164,6 @@ If you had problems with the above commands the plots can also be found [here](r
 Let's use the sfs to calculate some statistics for the population:
 
 ``` 
-
 ##run in R                      
 ## read sfs
 yri<-scan("yri.sfs");
@@ -268,7 +268,6 @@ read the data into R
  ##run in R                      
 r<-read.delim("slidingwindowBackground",as.is=T,head=T)
 names(r)[-c(1:4)] <- c("wFst_YRI_JPT","wFst_YRI_CEU","wFst_JPT_CEU","PBS_YRI","PBS_JPT","PBS_CEU")
-
 
 head(r) #print the results to the screen
 
@@ -417,7 +416,7 @@ barplot(resPoly,beside=T,legend=c("YRI","JPT","CEU"),names=1:19,main="SFS from c
 ed genotypes")
 
 
-#down sample to 5 individuals (10 chromosome) and exclude fixed derived
+#downsample to 5 individuals (10 chromosome) and exclude fixed derived
 downsampleSFS <- function(x,chr){ #x 1:2n , chr < 2n
     n<-length(x)
     mat <- sapply(1:chr,function(i) choose(1:n,i)*choose(n- (1:n),chr-i)/choose(n,chr))
