@@ -374,21 +374,21 @@ $ANGSD -b  CEU.filelist  -out ceu $FILTERS2 $OPT2 -ref $REF
 
 While it runs you can look at the options we choose:
 
-  - *minInd 10*: minimum individuals with data (in this case it means
+  - *minInd 10*: Minimum individuals with data (in this case it means
     with called genotypers). Why do we need this?
 
-  - *-doGeno 2* Print only the count (0,1,2) and not the based e.g.
+  - *-doGeno 2*: Print only the count (0,1,2) and not the based e.g.
     AA,AT,TT
 
-  - *-doPost 2* Use uniform prior for genotype i.e. call the genotype
+  - *-doPost 2*: Use uniform prior for genotype i.e. call the genotype
     with the highest likelihood
 
-  - *-DoMajorMinor 4* Use the Ancestral allele from the chimp
+  - *-doMajorMinor 4*: Use the Ancestral allele from the chimp
 
-  - *-doMaf 1 -SNP\_pval 1e-6* Use this p-value cutoff to call SNPs.
+  - *-doMaf 1 -SNP\_pval 1e-6*: Use this p-value cutoff to call SNPs.
     What would happend to the SFS if you change this threshold?
 
-  - *-PostCutoff 0.95* only call genotype with a propability above 0.95
+  - *-PostCutoff 0.95*: Only call genotype with a propability above 0.95
 
 Plot the results in R
 
