@@ -1,0 +1,165 @@
+
+
+Step1: Encode PLINK data, perform filtration, etc. if necessary.
+
+$ plink 
+  --bfile ../forJade/ALL.chrauto.phase3.forJade
+  --extract ./extract.map
+  --keep ./keep.txt
+  --out sample
+  --recode 12
+  --tab
+
+$ head -n 5 ./keep.txt
+GBR HG00096
+GBR HG00097
+GBR HG00099
+GBR HG00100
+GBR HG00101
+
+$ head -n 5 ./extract.map
+1 rs373285923 0 712547
+1 rs12071806 0 712762
+1 rs74512038 0 713977
+1 rs114983708 0 714019
+1 rs12028261 0 714427
+
+Step 2: Convert PLINK data into Ohana's data -- produce the G matrix.
+
+$ convert ped2dgm ./sample.ped ./g.dgm
+
+$ cut -c1-50 ./g.dgm | head
+256 5601710
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 1 0 0 1 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 1 0 0 1 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+
+Step 3: Down size data for admixture analysis.
+
+$ filter rema 200000 ./g.dgm ./g_200k.dgm
+
+$ head -n 1 ./g_200k.dgm
+256 200000
+
+Step 4: Analyze admixture and its stability -- produce the Q matrix.
+
+$ qpas -k 4 -qo ./q0.matrix -fo ./f0.matrix -e 0.0001 ./g_200k.dgm -s 0 > qpas0.stdout
+$ qpas -k 4 -qo ./q1.matrix -fo ./f1.matrix -e 0.0001 ./g_200k.dgm -s 1 > qpas2.stdout
+$ qpas -k 4 -qo ./q2.matrix -fo ./f2.matrix -e 0.0001 ./g_200k.dgm -s 2 > qpas3.stdout
+:
+
+$ head -n 5 ./q0.matrix
+256 4
+9.9999800000400022e-07 9.9999800000400022e-07 9.9999700000600011e-01 9.9999800000400022e-07
+9.9999800000400022e-07 9.9999800000400022e-07 9.9999700000600011e-01 9.9999800000400022e-07
+9.9999800000400022e-07 9.9999800000400022e-07 9.9999700000600011e-01 9.9999800000400022e-07
+9.9999800000400022e-07 9.9999800000400022e-07 9.9999700000600011e-01 9.9999800000400022e-07
+
+$ head -n 8 ./qpas0.stdout
+seed: 0
+
+iter duration log_likelihood delta-lle
+0 3.182211 -2.1787549560637406e+08
+1 15.988780 -1.6360834331623524e+08 5.4267152290138811e+07
+2 13.444966 -1.1544065098666592e+08 4.8167692329569325e+07
+3 12.628772 -7.9707483416106313e+07 3.5733167570559606e+07
+4 12.436553 -6.4853288296889625e+07 1.4854195119216688e+07
+
+Step 5: Analyze covariances -- produce the C matrix.
+
+$ nemeco -e 0.0001 -co ./c.matrix ./g_200k.matrix ./f.matrix
+
+$ cat ./c.matrix
+3 3
+1.6767640828892433e-01 7.2534452035980065e-02 8.4082054609396106e-02
+7.2534452035980065e-02 4.0858077785786712e-01 1.3610096619529002e-01
+8.4082054609396106e-02 1.3610096619529002e-01 2.1650650059519191e-01
+
+Step 6: Approximate C matrices to trees, the NWK format.
+
+$ convert cov2nwk ./c.matrix ./c.nwk
+
+$ cat ./c.nwk
+(2:0.278254,(1:0.0893682,0:0.0783083):0.0577927,3:0.0746317);
+
+Step 7: Visualize trees by pasting NWK content into web tool at: http://jade-cheng.com/graphs/nemetree/
+
+<image.png>
+Step 8: Obtain admixture-fixed allele frequencies -- produce the F matrix.
+
+$ qpas -qi ./q.matrix -fo ./f-full.matrix -e 0.0001 ./g.dgm
+
+$ cut -f1-3 ./f-full.matrix
+4 5601710
+2.3467287307597666e-02 2.3824517228051290e-02 2.1813869960876731e-01
+9.9999999999999995e-07 6.2886509299996708e-03 1.3732655889846807e-01
+7.9085917952450516e-03 4.2442985797982002e-01 9.9999999999999995e-07
+1.6573454321013367e-02 4.7483078567850945e-02 9.9999999999999995e-07
+
+Step 9: Conduct default selection scan, global scan with 10x scaling
+
+$ selscan ./g.dgm ./f-full.matrix ./c.matrix > ./selscan-default.scan
+
+$ head -n 5 ./selscan-default.scan
+step global-lle local-lle lle-ratio
+0 +5.9035538993042938e+00 +5.9035538993042938e+00 +0.0000000000000000e+00
+4 +7.2814919758046637e-01 +8.2097217824875668e-01 +1.8564596133658062e-01
+2 +1.8442414537503178e+00 +1.8631101071133587e+00 +3.7737306726081776e-02
+4 +7.2814919758046637e-01 +8.2097217824875668e-01 +1.8564596133658062e-01
+
+Step 10: Conduct population specific selection scans, with corresponding hypothesis C matrices.
+
+$ selscan ./g.dgm ./f-full.matrix ./c.matrix -cs ./cs_0.matrix > ./selscan-pop0.scan
+$ selscan ./g.dgm ./f-full.matrix ./c.matrix -cs ./cs_1.matrix > ./selscan-pop1.scan
+$ selscan ./g.dgm ./f-full.matrix ./c.matrix -cs ./cs_2.matrix > ./selscan-pop2.scan
+$ selscan ./g.dgm ./f-full.matrix ./c.matrix -cs ./cs_3.matrix > ./selscan-pop3.scan
+
+$ head cs_*
+==> cs_0.matrix <==
+3 3
+101.6767640828892433e-01 1007.2534452035980065e-02 1008.4082054609396106e-02
+1007.2534452035980065e-02 104.0858077785786712e-01 101.3610096619529002e-01
+1008.4082054609396106e-02 101.3610096619529002e-01 102.1650650059519191e-01
+
+==> cs_1.matrix <==
+3 3
+101.6767640828892433e-01 7.2534452035980065e-02 8.4082054609396106e-02
+7.2534452035980065e-02 4.0858077785786712e-01 1.3610096619529002e-01
+8.4082054609396106e-02 1.3610096619529002e-01 2.1650650059519191e-01
+
+==> cs_2.matrix <==
+3 3
+1.6767640828892433e-01 7.2534452035980065e-02 8.4082054609396106e-02
+7.2534452035980065e-02 104.0858077785786712e-01 1.3610096619529002e-01
+8.4082054609396106e-02 1.3610096619529002e-01 2.1650650059519191e-01
+
+==> cs_3.matrix <==
+3 3
+1.6767640828892433e-01 7.2534452035980065e-02 8.4082054609396106e-02
+7.2534452035980065e-02 4.0858077785786712e-01 1.3610096619529002e-01
+8.4082054609396106e-02 1.3610096619529002e-01 102.1650650059519191e-01
+
+This data is located at GenomeDK cluster at Aarhus.  What do you think is the best way to retrieve it?  The Tar ball is ~1G and the unzipped version is 9.3G.  Here are the details:
+
+$ pwd
+/home/jade/faststorage/Berkeley/SNM/ohana-selection/from-fernando-1007-2018
+
+$ ls -lh forJade*
+-rw-r--r-- 1 jade jade 994M Oct  7  2018 forJade.tar.gz
+
+forJade:
+total 9.3G
+-rw-r--r-- 1 jade jade 6.7G Aug 20  2018 ALL.chrauto.phase3.forJade.bed
+-rw-r--r-- 1 jade jade 2.7G Aug 20  2018 ALL.chrauto.phase3.forJade.bim
+-rw-r--r-- 1 jade jade 7.2K Aug 20  2018 ALL.chrauto.phase3.forJade.fam
+-rw-r--r-- 1 jade jade 1.9K Aug 20  2018 ALL.chrauto.phase3.forJade.log
+-rw-r--r-- 1 jade jade  30K Aug 20  2018 ALL.chrauto.phase3.forJade.nosex
+-rw-r--r-- 1 jade jade 4.3K Aug 20  2018 JadeList.txt
+
+Finally, Ohana has many lesser used options, and I don't think I can keep track of them all at this point, but the above describes a common journey of analyses.  Please let me know if I missed anything.  Good luck with the summer school!
