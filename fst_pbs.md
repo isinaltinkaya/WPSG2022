@@ -189,8 +189,8 @@ three populations.
 In order to estimate Fst between two populations we will need to estimate the 2-dimensional frequency spectrum from the site allele frequency likelihoods
 
     #calculate the 2D SFS 
-    $REALSFS yri.saf.idx ceu.saf.idx >yri.ceu.ml &
-    $REALSFS yri.saf.idx jpt.saf.idx >yri.jpt.ml &
+    $REALSFS yri.saf.idx ceu.saf.idx >yri.ceu.ml 
+    $REALSFS yri.saf.idx jpt.saf.idx >yri.jpt.ml 
     $REALSFS jpt.saf.idx ceu.saf.idx >jpt.ceu.ml
 
 Plot the results in R
