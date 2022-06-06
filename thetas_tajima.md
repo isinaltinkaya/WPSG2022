@@ -32,7 +32,7 @@ chr20.fa.gz  chr20.fa.gz.fai  chr20.fa.gz.gzi  POP1.bcf  POP1.bcf.csi  POP2.bcf 
 ### Understanding VCF/BCF files
 
 1. How many individuals do we have in the BCFs? hint: bcftools query -l file.bcf
-1. How many sites do we have in the BCFs? hint: bcftools view file.bcf |wc -l (very slow, maybe too slow)
+1. How many sites do we have in the BCFs? hint: bcftools view -H file.bcf |wc -l (very slow, maybe too slow)
 
 
 
