@@ -14,6 +14,7 @@ The dataset for this exercise consists of two [bamfiles](ancient_data/) these ar
 First set some paths   
 
     # NB this must be done every time you open a new terminal
+    SAMTOOLS=samtools
     
     # Set path to folder containing data
     DATAFOLDER=github_repos/ancient_data/
@@ -28,7 +29,7 @@ Let us first validate that we setup our variables correctly
 
 
 ```
-ls ${HG38} ${DATAFOLDER} ${MAPDAMAGE}
+ls ${SAMTOOLS} ${HG38} ${DATAFOLDER} ${MAPDAMAGE}
 ```
 
 # Summary statistic and conversion
