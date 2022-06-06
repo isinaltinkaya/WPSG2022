@@ -37,7 +37,7 @@ First, let's set some paths
 
     
     # Set path to ANGSD program
-    ANGSD=angsd
+    ANGSD=/home/wpsg/software/angsd/angsd
     
     #realSFS
     REALSFS=/home/wpsg/software/angsd/misc/realSFS
