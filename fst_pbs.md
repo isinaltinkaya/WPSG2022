@@ -193,6 +193,15 @@ In order to estimate Fst between two populations we will need to estimate the 2-
     $REALSFS yri.saf.idx jpt.saf.idx >yri.jpt.ml 
     $REALSFS jpt.saf.idx ceu.saf.idx >jpt.ceu.ml
 
+If the above commands take too long you can copy the results from the intermediate folder
+
+
+```
+cp fst_pbs_intermediate/yri.ceu.ml .
+cp fst_pbs_intermediate/yri.jpt.ml .
+cp fst_pbs_intermediate/jpt.ceu.ml .
+
+
 Plot the results in R
 
 ``` 
