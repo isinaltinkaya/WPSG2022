@@ -9,7 +9,7 @@ The dataset for this exercise consists of two [bamfiles](ancient_data/) these ar
 
 
 
-# Set some environment variables and paths
+### Set some environment variables and paths
 
 First set some paths   
 
@@ -33,7 +33,7 @@ Let us first validate that we setup our variables correctly
 ls ${SAMTOOLS} ${HG38} ${DATAFOLDER} ${MAPDAMAGE}
 ```
 
-# Summary statistic and conversion
+### Summary statistic and conversion
 
 We have two files called holmes.sam.gz and sherlock.sam.gz. Let us copy these files to our working directory.
 
@@ -58,6 +58,7 @@ Let us see how many reads we have in these two files
 gunzip -c sherlock.sam.gz |grep -P "^@" -v |wc -l
 gunzip -c holmes.sam.gz |grep -P "^@" -v |wc -l
 ```
+### Converting SAM to BAM
 
 Now let us convert the SAM files to BAM files
 
@@ -74,6 +75,8 @@ ${SAMTOOLS} view sherlock.bam|less -SN
 
 Are the reads ordered?
 
+### Sorting BAM files
+
 We can sort the file using `samtools sort`
 
 ```
@@ -87,12 +90,16 @@ Visually inspect that they are sorted by piping `samtools view` to `less` comman
 ${SAMTOOLS} view sherlock.sorted.bam|less -SN
 ```
 
+### Endogenous content
+
 Let us find the proportion of mapped reads (endogenous content) for each file
 
 ```
 ${SAMTOOLS} flagstat sherlock.sorted.bam
 ${SAMTOOLS} flagstat holmes.sorted.bam
 ```
+
+### Readlength distribution
 
 Let us look at the distribution of read lengths (for the mapped reads)
 
