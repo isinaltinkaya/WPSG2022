@@ -1,6 +1,6 @@
-https://github.com/isinaltinkaya/WPSG2022/
+# https://github.com/isinaltinkaya/WPSG2022/
 
-# WPSG2022
+# Exercises
 
 [Exercise1](ancient_data_exercise.md)
 
