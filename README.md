@@ -15,4 +15,11 @@
 
 [Exercise3](fst_pbs.md)
 
+Please use the following path for the ngsAdmix exercise, rarther than the path in the exercise
+
+```
+NGSADMIX=/home/wpsg/software/angsd/misc/NGSadmix
+ANGSD=/home/wpsg/software/angsd/angsd
+
+
 [Exercise4](http://www.popgen.dk/software/index.php/NgsAdmixTutorial)
