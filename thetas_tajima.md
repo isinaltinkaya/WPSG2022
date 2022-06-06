@@ -39,11 +39,11 @@ chr20.fa.gz  chr20.fa.gz.fai  chr20.fa.gz.gzi  POP1.bcf  POP1.bcf.csi  POP2.bcf 
 ### Site allele frequencies
 
 ```
-${ANGSD} -vcf-gl ${DATA}/POP1.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP1
-${ANGSD} -vcf-gl ${DATA}/POP2.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP2
+#${ANGSD} -vcf-gl ${DATA}/POP1.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP1
+#${ANGSD} -vcf-gl ${DATA}/POP2.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP2
 
 
-##if the above runs takes forever, (it took 5minutes on my desktop),
+##the above runs takes very long (it took 5minutes on my desktop),
 ##we can limit the analyses to 20megabases in the central part of chromosome20
 ${ANGSD} -vcf-gl ${DATA}/POP1.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP1 -r chr20:20000000-40000000
 ${ANGSD} -vcf-gl ${DATA}/POP2.bcf -doSaf 1 -anc ${DATA}/chr20.fa.gz -out POP2 -r chr20:20000000-40000000
