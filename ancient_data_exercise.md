@@ -126,8 +126,8 @@ If you had problems with the R commands the result can be found [here](results/s
 Let us also look at the proportion of duplicates (clonality)
 
 ```
-${SAMTOOLS} rmdup -s sherlock.sorted.bam sherlock.sorted.rmdup
-${SAMTOOLS} rmdup -s holmes.sorted.bam holmes.sorted.rmdup
+${SAMTOOLS} rmdup -s sherlock.sorted.bam sherlock.sorted.rmdup.bam
+${SAMTOOLS} rmdup -s holmes.sorted.bam holmes.sorted.rmdup.bam 
 ```
 
 What is reported? Which ones contains the most duplicates?
