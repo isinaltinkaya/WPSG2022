@@ -429,3 +429,6 @@ barplot(resDown,beside=T,legend=c("YRI","JPT","CEU"),names=1:9)
 If you had problems running the above commands the result can be found [here](results/yri.jpt.ceu.gc.1dsfs.pdf)
   - How does this compare to the likelhood based estimates
     ([pdf](results/yri.jpt.ceu.1dsfs.pdf))
+
+
+(Based on exercise by Prof Anders Albrechtsen)
