@@ -23,6 +23,7 @@ First set some paths
     HG38=hg38/
     
     #MAPDAMAGE?
+    MAPDAMAGE=mapDamage
 
 
 Let us first validate that we setup our variables correctly
