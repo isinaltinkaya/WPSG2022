@@ -1,6 +1,13 @@
 # https://github.com/isinaltinkaya/WPSG2022/
 
-# Exercises
+### Accessing servers
+
+1. Follow guidelines from yesterday
+2. step into the following directory 'workshop_materials/a07_angsd' 
+
+
+
+### Exercises
 
 [Exercise1](ancient_data_exercise.md)
 
