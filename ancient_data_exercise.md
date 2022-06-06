@@ -100,7 +100,7 @@ ${SAMTOOLS} view -F4 sherlock.sorted.bam |awk '{print length($10)}'|sort -n |uni
 ${SAMTOOLS} view -F4 holmes.sorted.bam |awk '{print length($10)}'|sort -n |uniq -c >holmes.readlength
 ```
 
-Let us load the data into R and plot it
+Let us load the data into R and plot it. Alternatively you can login to Rstudio through your browser and navigate to the directory with 'setwd("/home/wpsg/workshop_materials/a07_angsd/")
 
 ```
 sherlock <-read.table("sherlock.readlength")
