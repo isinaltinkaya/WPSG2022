@@ -93,8 +93,8 @@ likelihoods (`-saf`)
 
 Generate site frequency likelihoods using ANGSD:
 
-    $ANGSD -b  YRI.filelist  -anc $ANC -out yri $FILTERS $OPT -ref $REF &
-    $ANGSD -b  JPT.filelist  -anc $ANC -out jpt $FILTERS $OPT -ref $REF &
+    $ANGSD -b  YRI.filelist  -anc $ANC -out yri $FILTERS $OPT -ref $REF 
+    $ANGSD -b  JPT.filelist  -anc $ANC -out jpt $FILTERS $OPT -ref $REF 
     $ANGSD -b  CEU.filelist  -anc $ANC -out ceu $FILTERS $OPT -ref $REF
 
 The expected runtime is a couple of minutes.
