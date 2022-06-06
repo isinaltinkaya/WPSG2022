@@ -11,7 +11,7 @@ First setup some paths and environment variables
 
 ```
 DATA=thetas_tajima_input/
-ANGSD=angsd
+ANGSD=/home/wpsg/software/angsd/angsd
 REALSFS=/home/wpsg/software/angsd/misc/realSFS
 THETASTAT=/home/wpsg/software/angsd/misc/thetaStat
 ```
