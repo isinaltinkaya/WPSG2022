@@ -30,7 +30,7 @@ Let us first validate that we setup our variables correctly
 ls ${SAMTOOLS} ${DATAFOLDER}
 ```
 
-# Summary statistic and convertion
+# Summary statistic and conversion
 
 We have two files called holmes.sam.gz and sherlock.sam.gz. Let us copy these files to our working directory.
 
@@ -111,7 +111,7 @@ plot(holmes[,2],holmes[,1],main="Holmes",type='l',col=2,lwd=2)
 
 If you had problems with the R commands the result can be found [here](results/sherlock.holmes.rlen.pdf)
 
-
+### Clonality
 Let us also look at the proportion of duplicates (clonality)
 
 ```
@@ -120,6 +120,8 @@ ${SAMTOOLS} rmdup -s holmes.sorted.bam holmes.sorted.rmdup
 ```
 
 What is reported? Which ones contains the most duplicates?
+
+### Damage signal
 
 From these files we have also precomputed the nucleotide misincorporation for each cycle of the read. A plot of these can be found at [sherlock](results/sherlock.nmis.pdf) [holmes](results/holmes.nmis.pdf)
 
