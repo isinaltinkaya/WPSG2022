@@ -10,10 +10,10 @@ First setup some paths and environment variables
 
 
 ```
-DATA="WORKSHOP_DATA/data/bcf"
-ANGSD="angsd/angsd"
-REALSFS="angsd/misc/realSFS"
-THETASTAT="angsd/misc/thetaStat"
+DATA=thetas_tajima_input/
+ANGSD=angsd
+REALSFS=/home/wpsg/software/angsd/misc/realSFS
+THETASTAT=/home/wpsg/software/angsd/misc/thetaStat
 ```
 
 Validate that we have setup our variables correctly
