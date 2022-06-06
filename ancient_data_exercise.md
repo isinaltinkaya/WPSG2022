@@ -136,8 +136,8 @@ What is reported? Which ones contains the most duplicates?
 
 First we need to index the bam files
 ```
-samtools index sherlock.sorted.rmdup.bam 
-samtools index holmes.sorted.rmdup.bam 
+${SAMTOOLS} index sherlock.sorted.rmdup.bam 
+${SAMTOOLS} index holmes.sorted.rmdup.bam 
 ```
 
 Then we run the MapDamage software for visualizing the damage patterns
