@@ -98,6 +98,7 @@ Let us find the proportion of mapped reads (endogenous content) for each file
 ${SAMTOOLS} flagstat sherlock.sorted.bam
 ${SAMTOOLS} flagstat holmes.sorted.bam
 ```
+What is reported? what is the percentage of mapped reads? Which file has the largest proportion of mapped reads?
 
 ### Readlength distribution
 
