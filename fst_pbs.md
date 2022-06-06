@@ -200,7 +200,7 @@ If the above commands take too long you can copy the results from the intermedia
 cp fst_pbs_intermediate/yri.ceu.ml .
 cp fst_pbs_intermediate/yri.jpt.ml .
 cp fst_pbs_intermediate/jpt.ceu.ml .
-
+``` 
 
 Plot the results in R
 
