@@ -123,7 +123,20 @@ What is reported? Which ones contains the most duplicates?
 
 ### Damage signal
 
-From these files we have also precomputed the nucleotide misincorporation for each cycle of the read. A plot of these can be found at [sherlock](results/sherlock.nmis.pdf) [holmes](results/holmes.nmis.pdf)
+First we need to index the bam files
+```
+samtools index sherlock.sorted.rmdup.bam 
+samtools index holmes.sorted.rmdup.bam 
+```
+
+Then we run the MapDamage software for visualizing the damage patterns
+
+```
+mapDamage -i sherlock.sorted.rmdup.bam -r ${HG38}/genome.fa --merge-libraries --no-stats
+mapDamage -i .sorted.rmdup.bam -r ${HG38}/genome.fa --merge-libraries --no-stats
+```
+Where are the output files located?
+If you had problems generating the files we have also precomputed the nucleotide misincorporation for each cycle of the read. A plot of these can be found at [sherlock](results/sherlock.nmis.pdf) [holmes](results/holmes.nmis.pdf)
 
 Which one looks ancient? 
 
