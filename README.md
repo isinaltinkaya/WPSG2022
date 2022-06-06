@@ -6,4 +6,4 @@
 
 [Exercise3](fst_pbs.md)
 
-[Exercise3](http://www.popgen.dk/software/index.php/NgsAdmixTutorial)
+[Exercise4](http://www.popgen.dk/software/index.php/NgsAdmixTutorial)
