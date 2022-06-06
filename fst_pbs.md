@@ -37,23 +37,23 @@ First, let's set some paths
 
     
     # Set path to ANGSD program
-    ANGSD=angsd/angsd
+    ANGSD=angsd
     
     #realSFS
-    REALSFS=angsd/misc/realSFS
+    REALSFS=/home/wpsg/software/angsd/misc/realSFS
     
     #ancestral fasta file (chimp)
-    ANC=hg19ancNoChr.fa.gz
+    ANC=fst_pbs_input/hg19ancNoChr.fa.gz
     
     #reference genome for human 
-    REF=hg19.fa.gz
+    REF=fst_pbs_input/hg19.fa.gz
     
     # a bam filelist for a several bam files
-    BAMFOLDER=dt/smallerbams
-    BAMFOLDERchr5=dt/chr5_33M_v2
+    BAMFOLDER=github_repos/smallerbams
+    BAMFOLDERchr5=github_repos/chr5_33M_v2
     
     #copy R plot function to folder
-    cp dt/plot2dSFS.R .
+    cp github_repos/plot2dSFS.R .
 
 
 Let us first validate that we setup our variables correctly
