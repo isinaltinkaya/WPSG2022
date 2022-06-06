@@ -1,6 +1,0 @@
-# Workshop
-
-
-```
-git clone ...
-```
