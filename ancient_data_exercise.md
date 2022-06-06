@@ -21,6 +21,9 @@ First set some paths
     
     # Set path to folder containing data
     DATAFOLDER=dt/ancient_data/
+    
+    # Set folder to assembly
+    HG38=hg38/
 
 
 Let us first validate that we setup our variables correctly
