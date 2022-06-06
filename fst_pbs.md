@@ -101,9 +101,9 @@ The expected runtime is a couple of minutes.
 
 If it takes too long, then you can copy the results using this command:
 
-    cp dt/yri.saf* .
-    cp dt/ceu.saf* .
-    cp dt/jpt.saf* .
+    cp fst_pbs_intermediate/yri.saf* .
+    cp fst_pbs_intermediate/ceu.saf* .
+    cp fst_pbs_intermediate/jpt.saf* .
 
 Estimate the site frequency spectrum for each of the 3 populations
 without having to call genotypes or variable sites directly from the
