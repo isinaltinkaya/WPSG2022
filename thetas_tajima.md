@@ -1,6 +1,6 @@
 This exercise revolves around obtaining site frequency spectra from two different populations and see if we can find any signs of selection.
 
-The input data is simulated bcf files and represents the chr20 in a European population. The simulation has been done using an average per site depth of 10 and an error rate of 0.005.
+The input data is simulated bcf files and represents the chr20 in a European population. The simulation has been done using an error rate of 0.005.
 
 
 # Site frequency spectrum and VCF files
