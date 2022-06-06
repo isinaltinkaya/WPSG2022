@@ -143,8 +143,8 @@ ${SAMTOOLS} index holmes.sorted.rmdup.bam
 Then we run the MapDamage software for visualizing the damage patterns
 
 ```
-${MAPDAMAGE} -i sherlock.sorted.rmdup.bam -r ${HG38}/genome.fa --merge-libraries --no-stats
-${MAPDAMAGE} -i holmes.sorted.rmdup.bam -r ${HG38}/genome.fa --merge-libraries --no-stats
+${MAPDAMAGE} -i sherlock.sorted.rmdup.bam -r ${HG38}/genome.fa --no-stats
+${MAPDAMAGE} -i holmes.sorted.rmdup.bam -r ${HG38}/genome.fa --no-stats
 ```
 Where are the output files located?
 If you had problems generating the files we have also precomputed the nucleotide misincorporation for each cycle of the read. A plot of these can be found at [sherlock](results/sherlock.nmis.pdf) [holmes](results/holmes.nmis.pdf)
