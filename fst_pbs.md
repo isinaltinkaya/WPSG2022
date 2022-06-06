@@ -151,9 +151,6 @@ barplot(resDown,beside=T,legend=c("YRI","JPT","CEU"),names=1:9,main="realSFS dow
 
 If you had problems with the above commands, the plots can also be found [here](results/yri.jpt.ceu.1dsfs.pdf)
 
-
-  - Which population has the largest population size?
-
   - The data is a small subset of the genome (2Mb). If you had analysed
     6Mb it should have looked like
     [this](results/realSFS4.pdf)
