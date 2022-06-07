@@ -10,6 +10,8 @@ The dataset for this exercise consists of two [bamfiles](ancient_data/) these ar
 
 
 ### Set some environment variables and paths
+```
+cd workshop_materials/a07_angsd/
 
 First set some paths   
 
