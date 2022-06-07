@@ -12,7 +12,7 @@ The dataset for this exercise consists of two [bamfiles](ancient_data/) these ar
 ### Set some environment variables and paths
 ```
 cd workshop_materials/a07_angsd/
-
+```
 First set some paths   
 
     # NB this must be done every time you open a new terminal
